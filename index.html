@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Saya</title>
+
+    <!-- TAMBAHKAN BARIS INI UNTUK MENAMPILKAN LOGO DI TAB BROWSER -->
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- LAYER NAVBAR (Paling Depan untuk Navigasi) -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="assets/logo.svg" alt="Logo M"> 
+        </div>
+        <nav class="nav-links">
+            <a href="#about">About Me</a>
+            <a href="#contact">Contact</a>
+            <a href="#graphic-design">Graphic Design</a>
+            <a href="#uiux-design">UI/UX Design</a>
+        </nav>
+    </header>
+
+    <!-- LAYER 2: BINGKAI LATAR BELAKANG UNGU (Murni sebagai Background) -->
+    <main class="hero-container"></main>
+
+    <!-- LAYER 3: ILUSTRASI KARAKTER UTAMA (Bisa melebar bebas tanpa terpotong) -->
+    <section class="character-wrapper">
+        <img src="assets/karakter-utama.png" alt="Ilustrasi Andhika" class="main-char">
+    </section>
+
+    <!-- LAYER 4: KONTEN FOREGROUND (Tumpukan Kartu & Teks di Lapisan Teratas) -->
+    <div class="foreground-content">
+        <!-- SISI KIRI: Tumpukan Kartu Karya -->
+        <section class="cards-wrapper">
+            <div class="card card-1"><img src="assets/kartu1.png" alt="Karya 1"></div>
+            <div class="card card-2"><img src="assets/kartu2.png" alt="Karya 2"></div>
+            <div class="card card-3"><img src="assets/kartu3.png" alt="Karya 3"></div>
+            <div class="card card-4"><img src="assets/kartu4.png" alt="Karya 4"></div>
+        </section>
+
+        <!-- SISI KANAN: Teks Intro & CTA -->
+        <section class="intro-wrapper">
+            <h1>Crafting digital experiences through intuitive <span class="highlight uiux">UI/UX</span> and impactful <span class="highlight graphic">graphic design.</span></h1>
+            <p class="sub-text">and <em>this</em> is where that begins.</p>
+            <a href="#contact" class="btn-talk">let's talk &rarr;</a>
+        </section>
+    </div>
+
+</body>
+</html>

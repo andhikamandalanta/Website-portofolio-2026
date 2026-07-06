@@ -1,0 +1,338 @@
+/* --- Reset & Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.05em; /* Disesuaikan agar porsinya tidak terlalu rapat merusak keterbacaan global */
+}
+
+body {
+    /* LAYER 1: Tekstur kertas paling dasar */
+    background-image: url('assets/bg-tekstur.png');
+    background-repeat: repeat;
+    background-position: center;
+    background-color: #e5e5eb; 
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* --- Navbar --- */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    padding: 15px 60px; 
+    position: relative;
+    width: 100%;
+    z-index: 100; /* Lapisan navigasi terdepan */
+}
+
+.logo img {
+    height: 2em; /* Menggunakan em proporsional, jika 2.8em terlalu raksasa */
+    width: auto;   
+    display: block;
+
+    filter: invert(1) brightness(0.2);
+}
+
+/* --- Penyesuaian Menu Navigasi (Teks Menyala Putih + Garis Bawah) --- */
+.nav-links a {
+    text-decoration: none;
+    color: #000; /* Kondisi awal biasa: warna hitam minimalis */
+    margin-left: 2rem;
+    font-weight: 500;
+    position: relative; /* Menjadi jangkar posisi untuk garis bawah */
+    display: inline-block;
+    padding: 4px 0; /* Memberi sedikit ruang vertikal untuk jarak garis bawah */
+    
+    /* Transisi halus saat teks berubah warna dan menyala */
+    transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Membuat Elemen Garis Bawah (Tersembunyi secara default) */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Ketebalan garis bawah */
+    bottom: 0; /* Menempel di batas bawah teks */
+    left: 0;
+    background-color: #fff; /* Warna garis bawah putih */
+    
+    /* Kondisi awal garis bawah: menciut di tengah dan transparan */
+    transform: scaleX(0);
+    transform-origin: center;
+    opacity: 0;
+    
+    /* Efek transisi halus saat garis memanjang keluar */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* --- EFEK HOVER: NYALA PUTIH & GARIS BAWAH MUNCUL --- */
+.nav-links a:hover {
+    color: #fff; /* Teks berubah menjadi warna putih bersih */
+    
+    /* Efek Pendaran Cahaya Putih (Text Glow) agar teks putihnya menyala terang */
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 
+                 0 0 15px rgba(255, 255, 255, 0.6),
+                 0 0 25px rgba(108, 92, 231, 0.3); /* Sentuhan pendaran ungu tipis di layer paling belakang */
+                 
+    transform: translateY(-1px); /* Sedikit naik tipis agar terasa interaktif */
+}
+
+/* Garis bawah otomatis memanjang dari tengah dan menyala saat di-hover */
+.nav-links a:hover::after {
+    transform: scaleX(1); /* Melebar penuh 100% mengikuti lebar teks */
+    opacity: 1;
+    
+    /* Memberikan efek glow yang sama pada garis bawahnya */
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9); 
+}
+
+/* --- LAYER 2: Bingkai Latar Belakang Ungu --- */
+.hero-container {
+    position: relative; 
+    height: calc(130vh - 80px); /* Memanfaatkan tinggi maksimal viewport layar */
+    margin: 0 60px 40px 60px; /* Jarak 60px dari tepi layar */
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+    z-index: 2; /* Di atas tekstur dasar */
+    overflow: hidden;
+
+    background-image: url('assets/hero-bg.jpg');
+    background-size: 100% 100%; /* Mengubah dari repeat menjadi cover agar gambarnya proporsional mengisi bingkai */
+    background-position: center;
+    background-repeat: no-repeat;
+
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.20),
+        0 15px 30px rgba(0, 0, 0, 0.20),
+        0 30px 60px rgba(0, 0, 0, 0.20);
+}
+
+/* --- LAYER 3: Kontainer Karakter Utama --- */
+.character-wrapper {
+    position: absolute;
+    bottom: 0px; /* Dikunci pas menempel di batas bawah bingkai ungu (sejajar margin-bottom 40px) */
+    left: 50%;
+    transform: translateX(-50%); 
+    
+    /* Mengatasi Masalah Karakter Terlalu Tinggi: */
+    /* Kita batasi lebar kontainernya menjadi maksimal 40% dari lebar layar agar tingginya otomatis mengerucut proporsional */
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 3; /* Berada di depan background ungu, di belakang teks & kartu */
+    pointer-events: none; /* Lapisan transparan ini tidak mematikan fungsi klik/hover di belakangnya */
+}
+
+.main-char {
+    width: 90.5%; 
+    height: auto; 
+    object-fit: contain;
+    display: block;
+}
+
+/* --- LAYER 4: Hamparan Konten Depan (Melayang Bebas di Atas Karakter) --- */
+.foreground-content {
+    position: absolute;
+    top: 100px; /* Dimulai di bawah area navbar */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 140px);
+    z-index: 4; /* Berada di atas layer karakter (z-index: 3) secara mutlak */
+    pointer-events: none; /* Melewatkan sensor kursor pada area kosong pembungkus */
+}
+
+/* Mengaktifkan kembali fungsi sensor mouse khusus untuk area kartu dan teks tulisan */
+.cards-wrapper, .intro-wrapper {
+    pointer-events: auto; 
+}
+
+/* --- SISI KIRI: Tumpukan Kartu Karya --- */
+.cards-wrapper {
+    position: absolute;
+    left: 130px; /* Jarak melayang bebas di sisi kiri */
+    top: 60%;
+    transform: translateY(-50%); 
+    width: 240px;
+    height: 400px;
+}
+
+.card {
+    position: absolute;
+    width: 240px; 
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), z-index 0s, box-shadow 0.4s;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Kita renggangkan jarak top agar kartu menyebar lebih proporsional ke atas dan bawah */
+.card-1 { transform: rotate(-10deg); top: -20px; left: -10px; z-index: 4; } /* Diangkat lebih ke atas (dari 0 ke -20px) */
+.card-2 { transform: rotate(6deg);  top: 25px;  left: 70px;  z-index: 3; } /* Diturunkan sedikit (dari 30px ke 25px) */
+.card-3 { transform: rotate(-5deg); top: 140px; left: -40px; z-index: 2; } /* Diturunkan lebih ke bawah (dari 120px ke 140px) */
+.card-4 { transform: rotate(8deg);  top: 230px; left: 45px;  z-index: 1; } /* Didorong paling bawah (dari 190px ke 230px) */
+
+/* LOGIKA HOVER: Meluruskan posisi, menaikkan layer, membesarkan ukuran + BAYANGAN REALISTIS */
+.card:hover {
+    transform: rotate(0deg) scale(1.08);
+    z-index: 99 !important; /* Memaksa kartu naik ke paling atas */
+    
+    /* 
+       EFEK BAYANGAN REALISTIS (Multiple Layers Box-Shadow):
+       - Layer 1 (Paling atas): Bayangan tipis, agak tajam dekat objek sebagai pembatas.
+       - Layer 2 (Tengah): Bayangan medium yang mulai menyebar ke bawah.
+       - Layer 3 (Paling bawah): Bayangan sangat lembut, transparan, dan menyebar luas untuk memberikan efek melayang tinggi.
+    */
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.08),
+        0 20px 40px rgba(0, 0, 0, 0.40),
+        0 30px 60px rgba(0, 0, 0, 0.18);
+}
+
+/* --- SISI KANAN: Teks Intro & CTA --- */
+.intro-wrapper {
+    position: absolute;
+    right: 100px; /* Jarak melayang bebas di sisi kanan */
+    top: 60%;
+    transform: translateY(-50%); 
+    width: 30%; 
+}
+
+.intro-wrapper h1 {
+    font-size: 2.6rem; 
+    font-weight: 400;
+    line-height: 1.25;
+    color: #111;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.1em; /* Mengunci letter spacing -10% sesuai desain Figma */
+}
+
+/* --- ANIMASI STABILO BERSAMAAN DAN LEBIH LAMBAT --- */
+
+.highlight {
+    padding: 0 6px;
+    border-radius: 4px;
+    display: inline-block;
+    
+    /* Menggunakan linear-gradient sebagai background cair yang bisa dimanipulasi */
+    background-repeat: no-repeat;
+    background-size: 0% 100%; /* Kondisi awal: 0% tersembunyi di kiri */
+    background-position: left center; /* Memastikan sapuan awal dimulai dari KIRI ke KANAN */
+    
+    /* Menghubungkan ke satu nama animasi yang sama agar gerakannya sinkron bersisian */
+    animation-name: highlight-together-flow;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Mengembalikan pengaturan warna murni tanpa dipisah timelimenya */
+.highlight.uiux { 
+    background-image: linear-gradient(#c4d7f5, #c4d7f5); /* Biru pastel */
+} 
+
+.highlight.graphic { 
+    background-image: linear-gradient(#f7e7c4, #f7e7c4); /* Kuning pastel */
+}
+
+/* --- LOGIKA TIMING SINKRON (TOTAL 4 DETIK) --- */
+@keyframes highlight-together-flow {
+    0% { 
+        background-size: 0% 100%; 
+        background-position: left center; 
+    }
+    /* Gerakan menyapu dibuat sedikit lebih lambat (mencapai 100% pada 18% durasi, sekitar 0.7 detik) */
+    18% { 
+        background-size: 100% 100%; 
+        background-position: left center; 
+    }
+    /* Menahan efek stabilo menyala penuh agar audiens nyaman membaca */
+    55% { 
+        background-size: 100% 100%; 
+        background-position: left center; 
+    }
+    /* Menghilang bersamaan, menyapu gulung keluar ke arah KANAN */
+    65% { 
+        background-size: 0% 100%; 
+        background-position: right center; 
+    }
+    /* Sisa durasi (65% hingga 100%) digunakan untuk jeda diam/polos sebelum loop 4 detik berikutnya aktif */
+    100% { 
+        background-size: 0% 100%; 
+        background-position: right center; 
+    }
+}
+
+.sub-text {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+.btn-talk {
+    display: inline-block;
+    padding: 1rem 1rem;
+    background-color: #ffffffb5;
+    backdrop-filter: blur(8px);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+
+    /* --- HUBUNGKAN KE ANIMASI LOOPING GLOW --- */
+    /* Berdurasi 3 detik, berulang terus (infinite), melambat di ujung (ease-in-out) */
+    animation: button-glow-pulse 3s infinite ease-in-out;
+}
+
+/* --- LOGIKA EFEK HOVER KETIKA KURSOR DATANG --- */
+.btn-talk:hover {
+    background-color: #000;
+    color: #fff;
+    transform: translateY(-2px);
+    
+    /* 
+       Trik Kunci: Mengganti animasi pulsing otomatis dengan bayangan hover yang solid 
+       dan lebih tegas saat disentuh kursor 
+    */
+    animation: none; 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), 
+                0 0 20px rgba(108, 92, 231, 0.4); 
+}
+
+/* --- TIMELINE ANIMASI PULSING GLOW (SAAT DIAM) --- */
+@keyframes button-glow-pulse {
+    0% {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08),
+                    0 0 0px rgba(108, 92, 231, 0);
+        background-color: #ffffffb5;
+    }
+    /* Di pertengahan (detik ke 1.5), warna dasar sedikit lebih cerah dan memancarkan pendaran cahaya */
+    50% {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05),
+                    0 0 20px rgba(108, 92, 231, 0.4),  /* Pendaran ungu luar melayang lembut */
+                    0 0 40px rgba(255, 255, 255, 0.6); /* Pendaran putih terang */
+        background-color: #ffffffdf; /* Warna putih dasarnya mengental menyala */
+    }
+    100% {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08),
+                    0 0 0px rgba(108, 92, 231, 0);
+        background-color: #ffffffb5;
+    }
+}

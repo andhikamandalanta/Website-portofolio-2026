@@ -1,0 +1,12 @@
+<svg width="54" height="73" viewBox="0 0 54 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<style>
+    path, rect, circle, polygon, line {
+      <!-- fill: #ffffff !important; -->
+      stroke: #ffffff !important;
+    }
+  </style>
+
+<path d="M0.753754 54.3249L13.5569 18.3249L26.8451 54.3249L40.2303 18.3249L52.9364 54.3734M26.9421 36.3734L40.2303 0.276367M40.2303 36.3734L26.9421 72.2764" stroke="black" stroke-width="1.6"/>
+
+</svg>
