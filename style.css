@@ -94,53 +94,75 @@ body {
 /* --- LAYER 2: Bingkai Latar Belakang Ungu --- */
 .hero-container {
     position: relative; 
-    height: calc(130vh - 80px); /* Memanfaatkan tinggi maksimal viewport layar */
-    margin: 0 60px 40px 60px; /* Jarak 60px dari tepi layar */
-    border-top-left-radius: 2em;
-    border-top-right-radius: 2em;
-    z-index: 2; /* Di atas tekstur dasar */
-    overflow: hidden;
+    /* Ganti height ke 80vh agar tidak terlalu memanjang ke bawah di layar vertikal */
+    height: 90vh; 
+    min-height: 500px;
+    margin: 0 60px 40px 60px; /* Jarak tetap aman */
+    border-top-left-radius: 2em; /* */
+    border-top-right-radius: 2em; /*[cite: 2] */
+    z-index: 2; /*[cite: 2] */
+    overflow: hidden; /*[cite: 2] */
 
-    background-image: url('assets/hero-bg.jpg');
-    background-size: 100% 100%; /* Mengubah dari repeat menjadi cover agar gambarnya proporsional mengisi bingkai */
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: url('assets/hero-bg.jpg'); /*[cite: 2] */
+    
+    /* --- PERBAIKAN UTAMA BACKGROUND --- */
+    /* Menggunakan cover agar gambar dipotong proporsional, bukan ditarik gepeng */
+    background-size: cover; 
+    background-position: center bottom; /* Fokus gambar tetap di area karakter bawah */
+    background-repeat: no-repeat; /*[cite: 2] */
 
     box-shadow: 
         0 4px 10px rgba(0, 0, 0, 0.20),
         0 15px 30px rgba(0, 0, 0, 0.20),
-        0 30px 60px rgba(0, 0, 0, 0.20);
+        0 30px 60px rgba(0, 0, 0, 0.20); /*[cite: 2] */
 }
 
 /* --- LAYER 3: Kontainer Karakter Utama --- */
+/* --- LAYER 3: Kontainer Karakter Utama & Gradasi --- */
 .character-wrapper {
     position: absolute;
-    bottom: 0px; /* Dikunci pas menempel di batas bawah bingkai ungu (sejajar margin-bottom 40px) */
-    left: 50%;
-    transform: translateX(-50%); 
+    bottom: 0px; /* Menempel pas di batas bawah hero-container[cite: 4] */
+    left: 50%; /*[cite: 4] */
+    transform: translateX(-50%); /*[cite: 4] */ 
+    width: 100%; /*[cite: 4] */
+    height: 90vh; /* Menyamakan tinggi kontainer dengan panggung hero-container agar presisi */
+    z-index: 3; /*[cite: 4] */
+    pointer-events: none; /*[cite: 4] */
     
-    /* Mengatasi Masalah Karakter Terlalu Tinggi: */
-    /* Kita batasi lebar kontainernya menjadi maksimal 40% dari lebar layar agar tingginya otomatis mengerucut proporsional */
-    width: 100%;
-    
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    z-index: 3; /* Berada di depan background ungu, di belakang teks & kartu */
-    pointer-events: none; /* Lapisan transparan ini tidak mematikan fungsi klik/hover di belakangnya */
+    /* Trik Kunci: Menggunakan relative-absolute internal agar gambar bisa menumpuk di tengah */
+    position: absolute;
 }
 
-.main-char {
-    width: 90.5%; 
-    height: auto; 
-    object-fit: contain;
+/* Pengaturan Gambar Latar Belakang 2 Warna */
+.bg-shade {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 100%; /* Mengikuti tinggi maksimal panggung */
+    width: 90.5%;
+    object-fit: cover;
     display: block;
+    z-index: 2; /* Berada di lapisan belakang kontainer */
+}
+
+/* Pengaturan Gambar Ilustrasi Karakter Utama (Tepat di Depan bg-2warna) */
+.main-char {
+    position: absolute;
+    bottom: 0; /* Mengunci kaki karakter di batas bawah yang sama */
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 95%; /* Dibuat sedikit lebih kecil atau sama agar proporsinya pas di dalam bingkai */
+    width: auto; /*[cite: 4] */
+    object-fit: contain; /*[cite: 4] */
+    display: block; /*[cite: 4] */
+    z-index: 1; /* Mengangkat gambar karakter tepat di atas bg-shade */
 }
 
 /* --- LAYER 4: Hamparan Konten Depan (Melayang Bebas di Atas Karakter) --- */
 .foreground-content {
     position: absolute;
-    top: 100px; /* Dimulai di bawah area navbar */
+    top: 0px; /* Dimulai di bawah area navbar */
     left: 0;
     width: 100%;
     height: calc(100vh - 140px);
@@ -206,7 +228,7 @@ body {
 .intro-wrapper {
     position: absolute;
     right: 100px; /* Jarak melayang bebas di sisi kanan */
-    top: 60%;
+    top: 80%;
     transform: translateY(-50%); 
     width: 30%; 
 }
@@ -336,3 +358,8 @@ body {
         background-color: #ffffffb5;
     }
 }
+
+/* --- RESPONSIVE MOBILE LAYOUT --- */
+/* ==========================================================================
+   PERBAIKAN TOTAL MOBILE LAYOUT (MENGIKUTI ALUR URUTAN KONTEN)
+   ========================================================================== */
