@@ -1,63 +1,624 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio Saya</title>
 
     <!-- TAMBAHKAN BARIS INI UNTUK MENAMPILKAN LOGO DI TAB BROWSER -->
-    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <!-- LAYER NAVBAR (Paling Depan untuk Navigasi) -->
-    <header class="navbar">
-        <div class="logo">
-            <img src="assets/logo.svg" alt="Logo M"> 
-        </div>
-        <nav class="nav-links">
-            <a href="#about">About Me</a>
-            <a href="#contact">Contact</a>
-            <a href="#graphic-design">Graphic Design</a>
-            <a href="#uiux-design">UI/UX Design</a>
-        </nav>
-    </header>
-
-    <!-- LAYER 2: BINGKAI LATAR BELAKANG UNGU (Murni sebagai Background) -->
-    <main class="hero-container"></main>
-
-<!--     <section class="character-wrapper">
-        <img src="assets/bg-2warna.png" alt="background 2 warna" class="bg-shade">
-    </section> -->
-
-    <!-- LAYER 3: KONTANER GAMBAR (Tumpukan Background 2 Warna + Karakter) -->
-    <section class="character-wrapper">
-        <img src="assets/bg-2warna.png" alt="background 2 warna" class="bg-shade">
-        <img src="assets/karakter-utama.png" alt="Ilustrasi Andhika" class="main-char">
-    </section>
-
-    <!-- LAYER 4: KONTEN FOREGROUND (Tumpukan Kartu & Teks di Lapisan Teratas) -->
-    <div class="foreground-content">
-        <!-- SISI KIRI: Tumpukan Kartu Karya -->
-        <section class="cards-wrapper">
-            <div class="card card-1"><img src="assets/kartu1.png" alt="Karya 1"></div>
-            <div class="card card-2"><img src="assets/kartu2.png" alt="Karya 2"></div>
-            <div class="card card-3"><img src="assets/kartu3.png" alt="Karya 3"></div>
-            <div class="card card-4"><img src="assets/kartu4.png" alt="Karya 4"></div>
-        </section>
-
-        <!-- SISI KANAN: Teks Intro & CTA -->
-        <section class="intro-wrapper">
-            <h1>Crafting digital experiences through intuitive <span class="highlight uiux">UI/UX</span> and impactful <span class="highlight graphic">graphic design.</span></h1>
-            <p class="sub-text">and <em>this</em> is where that begins.</p>
-            <a href="#contact" class="btn-talk">let's talk &rarr;</a>
-        </section>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- LAYER PALING BELAKANG: blob gradasi blur, tetap (fixed) di belakang navbar s/d footer.
+         Pakai warna yang sama dengan gradasi hero (ungu #cabdf0, biru #b9c8ef, oren #f5ddb8)
+         supaya konsisten satu keluarga warna, cuma dibuat blur & tipis. -->
+    <div class="site-bg-blobs" aria-hidden="true">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+      <span class="blob blob-4"></span>
+      <span class="blob blob-5"></span>
     </div>
 
-</body>
+    <!-- HERO WRAP: membungkus navbar + hero-stage supaya bg-tekstur.png bisa
+         mengisi dari paling atas (di belakang navbar) sampai batas bawah hero section -->
+    <div class="hero-wrap">
+      <!-- LAYER 0: Texture paling belakang, mengisi dari atas navbar sampai bawah hero-section -->
+      <div class="hero-bg-texture" aria-hidden="true">
+        <img src="assets/bg-tekstur.png" alt="" />
+      </div>
+
+      <!-- LAYER NAVBAR (Paling Depan untuk Navigasi) -->
+      <header class="navbar hero-anim hero-anim-navbar">
+        <div class="logo">
+          <img src="assets/logo.svg" alt="Logo M" />
+        </div>
+        <nav class="nav-links">
+          <a href="#about">About Me</a>
+          <a href="#graphic-design">Graphic Design</a>
+          <a href="#uiux-design">UI/UX Design</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Buka menu"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+
+      <!-- HERO STAGE: membungkus layer 2-4 agar posisi absolute anak-anaknya
+             terikat ke area hero ini, bukan ke seluruh panjang halaman -->
+      <div class="hero-stage">
+        <!-- LAYER 1b: Kartu berserakan (hiasan, mirror dari kartu asli), DI BELAKANG bingkai kaca
+                 supaya bisa "bocor" keluar sampai pinggir, tidak ke-clip oleh hero-container -->
+        <div
+          class="hero-scatter-cards hero-anim hero-anim-scatter"
+          aria-hidden="true"
+        >
+          <img src="assets/kartu1.png" class="scatter-card scatter-1" alt="" />
+          <img src="assets/kartu2.png" class="scatter-card scatter-2" alt="" />
+          <img src="assets/kartu3.png" class="scatter-card scatter-3" alt="" />
+          <img src="assets/kartu4.png" class="scatter-card scatter-4" alt="" />
+        </div>
+
+        <!-- LAYER 2: BINGKAI KACA (Glass) DI ATAS GRADASI HERO-STAGE -->
+        <main class="hero-container">
+          <!-- 2a: hero-bg.jpg full cover di dalam bingkai kaca -->
+          <div class="hero-bg-square" aria-hidden="true">
+            <img src="assets/hero-bg.jpg" alt="" />
+          </div>
+
+          <!-- 2b: Karakter utama -->
+          <section class="character-wrapper">
+            <img
+              src="assets/karakter-utama.png"
+              alt="Ilustrasi Andhika"
+              class="main-char hero-anim hero-anim-char"
+            />
+          </section>
+
+          <!-- 2c: Gradasi oren-ungu paling atas, ukuran disamakan dengan hero-bg -->
+          <div class="hero-gradient-overlay" aria-hidden="true">
+            <img src="assets/bg-2warna.png" alt="" />
+          </div>
+        </main>
+
+        <!-- LAYER 4: KONTEN FOREGROUND (Tumpukan Kartu & Teks di Lapisan Teratas) -->
+        <div class="foreground-content">
+          <!-- SISI KIRI: Tumpukan Kartu Karya -->
+          <section class="cards-wrapper hero-anim hero-anim-cards">
+            <div class="card card-1">
+              <img src="assets/kartu1.png" alt="Karya 1" />
+            </div>
+            <div class="card card-2">
+              <img src="assets/kartu2.png" alt="Karya 2" />
+            </div>
+            <div class="card card-3">
+              <img src="assets/kartu3.png" alt="Karya 3" />
+            </div>
+            <div class="card card-4">
+              <img src="assets/kartu4.png" alt="Karya 4" />
+            </div>
+          </section>
+
+          <!-- SISI KANAN: Teks Intro & CTA -->
+          <section class="intro-wrapper">
+            <h1 class="reveal">
+              Crafting digital experiences through intuitive
+              <span class="highlight uiux">UI/UX</span> and impactful
+              <span class="highlight graphic">graphic design.</span>
+            </h1>
+            <p class="sub-text reveal reveal-delay-1">
+              and <em>this</em> is where that begins.
+            </p>
+            <a href="#contact" class="btn-talk reveal reveal-delay-2"
+              >let's talk &rarr;</a
+            >
+          </section>
+        </div>
+      </div>
+      <!-- /.hero-stage -->
+    </div>
+    <!-- /.hero-wrap -->
+
+    <!-- ================= KONTEN DI BAWAH HERO ================= -->
+    <div class="page-content">
+      <!-- SECTION: ABOUT ME -->
+      <section id="about" class="section about-section reveal-left">
+        <div class="section-inner about-grid">
+          <div class="about-copy">
+            <span class="eyebrow">Tentang Saya</span>
+            <h2>
+              Halo, saya Andhika — seorang
+              <span class="highlight uiux">UI/UX</span> &amp;
+              <span class="highlight graphic">Graphic Designer.</span>
+            </h2>
+            <p class="body-text">
+              Saya percaya desain yang baik itu tidak sekadar cantik dipandang,
+              tapi juga mudah dipahami dan enak digunakan. Sejak beberapa tahun
+              terakhir, saya membantu brand dan produk digital menyampaikan
+              cerita mereka lewat visual yang rapi, sistematis, dan punya
+              karakter.
+            </p>
+            <p class="body-text">
+              Dari riset pengguna sampai eksekusi visual akhir, saya suka
+              terlibat di setiap tahap — karena di situlah detail-detail kecil
+              yang membuat perbedaan besar biasanya ditemukan.
+            </p>
+            <div class="tool-tags">
+              <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M0 0h256v256H0z" fill="none" />
+                  <g fill="none">
+                    <rect width="256" height="256" fill="#242938" rx="60" />
+                    <g clip-path="url(#SVGXwgIudex)">
+                      <path
+                        fill="#0acf83"
+                        d="M94.347 228c18.4 0 33.333-14.933 33.333-33.333v-33.334H94.347c-18.4 0-33.334 14.934-33.334 33.334S75.947 228 94.347 228"
+                      />
+                      <path
+                        fill="#a259ff"
+                        d="M61.013 128c0-18.4 14.934-33.333 33.334-33.333h33.333v66.666H94.347c-18.4 0-33.334-14.933-33.334-33.333"
+                      />
+                      <path
+                        fill="#f24e1e"
+                        d="M61.013 61.333C61.013 42.933 75.947 28 94.347 28h33.333v66.667H94.347c-18.4 0-33.334-14.934-33.334-33.334"
+                      />
+                      <path
+                        fill="#ff7262"
+                        d="M127.68 28h33.333c18.4 0 33.334 14.933 33.334 33.333s-14.934 33.334-33.334 33.334H127.68z"
+                      />
+                      <path
+                        fill="#1abcfe"
+                        d="M194.347 128c0 18.4-14.934 33.333-33.334 33.333S127.68 146.4 127.68 128s14.933-33.333 33.333-33.333S194.347 109.6 194.347 128"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="SVGXwgIudex">
+                        <path fill="#fff" d="M61 28h133.36v200H61z" />
+                      </clipPath>
+                    </defs>
+                  </g>
+                </svg>
+                Figma</span
+              >
+              <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1.03em"
+                  height="1em"
+                  viewBox="0 0 256 250"
+                >
+                  <path d="M0 0h256v250H0z" fill="none" />
+                  <rect width="256" height="249.6" fill="#300" rx="42.5" />
+                  <path
+                    fill="#ff9a00"
+                    d="M124.054 149.79h-39.67l-8.072 25.073a2.02 2.02 0 0 1-2.061 1.546H54.158q-1.718 0-1.202-1.89l34.347-98.918q.515-1.545 1.03-3.52c.45-2.292.68-4.62.687-6.955a1.063 1.063 0 0 1 1.202-1.203h27.306q1.2 0 1.374.86l38.983 109.908q.515 1.72-1.03 1.718h-22.326a1.59 1.59 0 0 1-1.717-1.202zm-33.488-21.638H117.7l-.387-1.277l-.621-2.022l-.443-1.42l-.707-2.236l-1.503-4.707l-1.322-4.173l-3.433-10.87a334 334 0 0 1-2.46-8.138l-.628-2.21l-.734-2.613l-1.12-4.05l-.21-.763h-.171a139 139 0 0 1-3.136 12.23l-2.548 8.196l-1.402 4.528l-1.415 4.584q-.383 1.242-.765 2.456l-.76 2.398l-.756 2.342l-.752 2.284l-.748 2.227q-.372 1.1-.743 2.17zm90.501-46.025a12.46 12.46 0 0 1-9.445-3.778a13.6 13.6 0 0 1-3.607-9.789a12.6 12.6 0 0 1 3.864-9.53a13.27 13.27 0 0 1 9.165-3.697l.366.004q6.183 0 9.704 3.692a13.26 13.26 0 0 1 3.52 9.531a13.4 13.4 0 0 1-3.692 9.79a13.18 13.18 0 0 1-9.508 3.79zm-11.85 92.564V92.603q-.001-1.546 1.374-1.546h21.124q1.373 0 1.374 1.546v82.088q0 1.72-1.374 1.718h-20.952q-1.464 0-1.541-1.542z"
+                  />
+                </svg>
+                Adobe Illustrator</span
+              >
+              <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1.03em"
+                  height="1em"
+                  viewBox="0 0 256 250"
+                >
+                  <path d="M0 0h256v250H0z" fill="none" />
+                  <rect width="256" height="249.6" fill="#001e36" rx="42.5" />
+                  <path
+                    fill="#31a8ff"
+                    d="M57.644 175.035V65.297q0-1.201 1.031-1.202l1.087-.003l1.858-.02l2.582-.051l8.65-.183l9.275-.172q4.893-.085 9.702-.086q13.05 0 21.982 3.263a38.1 38.1 0 0 1 14.34 8.758a33.6 33.6 0 0 1 7.814 12.108a40.2 40.2 0 0 1 2.405 13.824q0 13.741-6.355 22.669a35.9 35.9 0 0 1-16.6 12.756l-.573.21c-6.973 2.601-14.695 3.541-23.164 3.6l-1.316.004l-1.953-.01l-.985-.014l-1.098-.026l-.662-.026l-.402-.021l-.989-.036l-1.209-.025l-1.82-.013l-.405-.001v34.263a1.366 1.366 0 0 1-1.546 1.546H58.847q-1.204.001-1.203-1.374M80.84 84.703v35.792q2.23.173 4.12.172h5.668a40.3 40.3 0 0 0 11.533-1.727l.746-.233a18.5 18.5 0 0 0 8.759-5.668q3.228-3.807 3.344-10.492l.005-.499c.09-3.322-.774-6.6-2.491-9.445a16 16 0 0 0-7.47-6.097a31.8 31.8 0 0 0-12.537-2.146l-2.178.006l-1.374.012l-1.311.017l-1.85.036l-1.35.038l-.701.026l-.937.044l-.798.049l-.455.036l-.393.038l-.173.02zm123.93 29.284a40.2 40.2 0 0 0-9.458-3.442l-.76-.164a54.3 54.3 0 0 0-11.009-1.363l-.926-.011a22.2 22.2 0 0 0-6.44.773a5.8 5.8 0 0 0-3.35 2.146a5.4 5.4 0 0 0-.858 2.92a4.56 4.56 0 0 0 1.03 2.747a11.7 11.7 0 0 0 3.235 2.637l.372.197a72 72 0 0 0 7.556 3.52a75 75 0 0 1 16.4 7.814a24.94 24.94 0 0 1 8.416 8.845a23.6 23.6 0 0 1 2.49 10.99a24.7 24.7 0 0 1-4.122 14.169a27.1 27.1 0 0 1-11.936 9.53q-7.556 3.32-18.557 3.432l-.762.004a70 70 0 0 1-13.556-1.188l-.956-.186a46.3 46.3 0 0 1-10.905-3.435a2.22 2.22 0 0 1-1.202-1.89v-18.718a1.01 1.01 0 0 1 .43-.945a.83.83 0 0 1 .944.086a45.9 45.9 0 0 0 13.223 5.238a54.5 54.5 0 0 0 12.537 1.632q6.009 0 8.844-1.546a4.86 4.86 0 0 0 2.834-4.465q0-2.23-2.576-4.293q-1.08-.864-3.097-1.88l-.643-.316l-.686-.323l-.36-.164l-.754-.334l-.393-.17l-.82-.344l-.427-.175l-.886-.355l-.46-.18l-.953-.367l-.997-.373a63 63 0 0 1-15.199-7.728a26.2 26.2 0 0 1-8.071-9.016a23.7 23.7 0 0 1-2.49-10.905a24.6 24.6 0 0 1 3.606-12.88c2.7-4.27 6.576-7.67 11.163-9.788q7.555-3.776 18.89-3.779a83.6 83.6 0 0 1 13.224.945a34.7 34.7 0 0 1 9.206 2.49c.473.136.854.485 1.03.945c.117.419.174.852.172 1.288v17.345c.025.41-.172.803-.515 1.03a1.66 1.66 0 0 1-1.478 0"
+                  />
+                </svg>
+                Photoshop</span
+              >
+              <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M0 0h512v512H0z" fill="none" />
+                  <path
+                    fill="#fff"
+                    d="M41.8 22.1L325.1 1.2c34.8-3 43.7-1 65.6 14.9l90.4 63.7c14.9 11 19.9 13.9 19.9 25.9v349.4c0 21.9-8 34.9-35.8 36.8l-329 19.9c-20.9 1-30.8-2-41.8-15.9l-66.6-86.6C15.9 393.4 11 381.4 11 367.5V56.9c0-17.9 7.9-32.8 30.8-34.8"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M325.1 1.2L41.8 22.1C18.9 24.1 11 39 11 56.9v310.6c0 13.9 5 25.9 16.9 41.8l66.6 86.6c10.9 13.9 20.9 16.9 41.8 15.9l329-19.9c27.8-2 35.8-14.9 35.8-36.8V105.7c0-11.3-4.5-14.6-17.6-24.2l-92.7-65.4C368.8.2 359.9-1.8 325.1 1.2M143.7 100c-26.9 1.8-33 2.2-48.2-10.2L56.7 58.9c-3.9-4-2-9 8-10L337 29.1c22.9-2 34.8 6 43.7 12.9l46.7 33.8c2 1 7 7 1 7L147.2 99.7zm-31.3 352.1V155.5c0-13 4-18.9 15.9-19.9l323-18.9c11-1 15.9 6 15.9 18.9v294.6c0 13-2 23.9-19.9 24.9L138.2 473c-17.9 1-25.8-5-25.8-20.9m305.1-280.7c2 9 0 17.9-9 18.9l-14.9 3v219c-12.9 7-24.8 10.9-34.8 10.9c-15.9 0-19.9-5-31.8-19.9L229.6 250v148.3l30.8 7s0 17.9-24.9 17.9l-68.6 4c-2-4 0-13.9 6.9-15.9l17.9-5V210.2l-24.8-2c-2-9 3-21.9 16.9-22.9l73.6-5l101.4 155.3V198.3l-25.8-3c-2-11 6-18.9 15.9-19.9z"
+                  />
+                </svg>
+                Notion</span
+              >
+            </div>
+          </div>
+
+          <div class="about-stats">
+            <div class="stat-card reveal-scale">
+              <span class="stat-number">3+</span>
+              <span class="stat-label">Tahun pengalaman</span>
+            </div>
+            <div class="stat-card reveal-scale reveal-delay-1">
+              <span class="stat-number">25+</span>
+              <span class="stat-label">Proyek selesai</span>
+            </div>
+            <div class="stat-card reveal-scale reveal-delay-2">
+              <span class="stat-number">12</span>
+              <span class="stat-label">Klien &amp; brand</span>
+            </div>
+            <div
+              class="stat-card stat-card--accent reveal-scale reveal-delay-3"
+            >
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Dikerjakan dari hati</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: GRAPHIC DESIGN -->
+      <section id="graphic-design" class="section work-section reveal-right">
+        <div class="section-inner">
+          <div class="section-heading">
+            <span class="eyebrow">Graphic Design</span>
+            <h2>Desain yang bercerita, bukan sekadar terlihat bagus.</h2>
+            <p class="body-text section-desc">
+              Kumpulan karya visual dari branding, konten sosial media, hingga
+              materi promosi — dirancang agar setiap brand punya suara yang
+              konsisten dan mudah dikenali.
+            </p>
+          </div>
+
+          <div class="gd-grid">
+            <article class="gd-card gd-card-1 reveal">
+              <img src="assets/kartu1.png" alt="Studi kasus Backspace Studio" />
+              <div class="gd-caption">
+                <h3>Backspace Studio</h3>
+                <p>Brand identity &amp; social kit</p>
+              </div>
+            </article>
+            <article class="gd-card gd-card-2 reveal reveal-delay-1">
+              <img src="assets/kartu2.png" alt="Konten video produksi" />
+              <div class="gd-caption">
+                <h3>Shoot. Edit. Deliver.</h3>
+                <p>Content &amp; video production</p>
+              </div>
+            </article>
+            <article class="gd-card gd-card-3 reveal reveal-delay-2">
+              <img src="assets/kartu3.png" alt="Kampanye komunitas kreatif" />
+              <div class="gd-caption">
+                <h3>You Didn't Just Join</h3>
+                <p>Campaign &amp; poster design</p>
+              </div>
+            </article>
+            <article class="gd-card gd-card-4 reveal reveal-delay-3">
+              <img src="assets/kartu4.png" alt="Materi rekrutmen D4Media" />
+              <div class="gd-caption">
+                <h3>D4Media</h3>
+                <p>Recruitment &amp; print design</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: UI/UX DESIGN -->
+      <section id="uiux-design" class="section uiux-section reveal-left">
+        <div class="section-inner">
+          <div class="section-heading">
+            <span class="eyebrow">UI/UX Design</span>
+            <h2>Pengalaman digital yang intuitif, dari riset sampai rilis.</h2>
+            <p class="body-text section-desc">
+              Studi kasus produk digital yang saya rancang dengan pendekatan
+              berbasis riset — mulai dari wireframe, prototyping, hingga sistem
+              desain yang siap dikembangkan tim.
+            </p>
+          </div>
+
+          <div class="uiux-grid">
+            <article class="uiux-card reveal reveal-scale">
+              <div class="uiux-thumb">
+                <img
+                  src="assets/Cookaloud-thumbnail.png"
+                  alt="Thumbnail Nimbus Finance"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Nimbus Finance</h3>
+                <p>Dashboard analitik keuangan untuk tim finansial internal.</p>
+                <div class="tag-row">
+                  <span>Web App</span><span>Design System</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="uiux-card reveal reveal-scale reveal-delay-1">
+              <div class="uiux-thumb">
+                <img
+                  src="assets/NutriVita-thumbnail.png"
+                  alt="Thumbnail Ruangbaca"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Ruangbaca</h3>
+                <p>
+                  Aplikasi baca e-book dengan fokus pengalaman baca yang nyaman.
+                </p>
+                <div class="tag-row">
+                  <span>Mobile App</span><span>UX Research</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="uiux-card reveal reveal-scale reveal-delay-2">
+              <div class="uiux-thumb">
+                <img
+                  src="assets/mona-coffee-thumbnail.png"
+                  alt="Thumbnail Studio Roasters"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Studio Roasters</h3>
+                <p>Landing page &amp; toko online untuk kedai kopi lokal.</p>
+                <div class="tag-row">
+                  <span>Website</span><span>E-commerce</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: CONTACT -->
+      <section id="contact" class="section contact-section reveal">
+        <div class="section-inner contact-inner">
+          <span class="eyebrow">Kontak</span>
+          <h2>
+            Punya proyek menarik? <br />Yuk,
+            <span class="highlight uiux">ngobrol</span> dulu.
+          </h2>
+          <p class="body-text section-desc">
+            Saat ini saya membuka slot terbatas untuk proyek freelance maupun
+            kolaborasi jangka panjang. Ceritakan kebutuhan kamu, saya akan balas
+            dalam 1–2 hari kerja.
+          </p>
+
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=andhikamandalanta@gmail.com"
+            class="btn-talk btn-talk--lg"
+            >say hello &rarr;</a
+          >
+
+          <div class="social-row">
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=andhikamandalanta@gmail.com"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 256 256"
+              >
+                <path d="M0 0h256v256H0z" fill="none" />
+                <g fill="none">
+                  <rect width="256" height="256" fill="#f4f2ed" rx="60" />
+                  <path
+                    fill="#4285f4"
+                    d="M41.636 203.039h31.818v-77.273L28 91.676v97.727c0 7.545 6.114 13.636 13.636 13.636"
+                  />
+                  <path
+                    fill="#34a853"
+                    d="M182.545 203.039h31.819c7.545 0 13.636-6.114 13.636-13.636V91.675l-45.455 34.091"
+                  />
+                  <path
+                    fill="#fbbc04"
+                    d="M182.545 66.675v59.091L228 91.676V73.492c0-16.863-19.25-26.477-32.727-16.363"
+                  />
+                  <path
+                    fill="#ea4335"
+                    d="M73.455 125.766v-59.09L128 107.583l54.545-40.909v59.091L128 166.675"
+                  />
+                  <path
+                    fill="#c5221f"
+                    d="M28 73.493v18.182l45.454 34.091v-59.09L60.727 57.13C47.227 47.016 28 56.63 28 73.493"
+                  />
+                </g>
+              </svg>
+              Email</a
+            >
+            <a
+              href="https://www.instagram.com/andhika_s2/"
+              target="_blank"
+              rel="noopener"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 256 256"
+              >
+                <path d="M0 0h256v256H0z" fill="none" />
+                <g fill="none">
+                  <rect
+                    width="256"
+                    height="256"
+                    fill="url(#SVGKdMMobCR)"
+                    rx="60"
+                  />
+                  <rect
+                    width="256"
+                    height="256"
+                    fill="url(#SVGqYUiQbXV)"
+                    rx="60"
+                  />
+                  <path
+                    fill="#fff"
+                    d="M128.009 28c-27.158 0-30.567.119-41.233.604c-10.646.488-17.913 2.173-24.271 4.646c-6.578 2.554-12.157 5.971-17.715 11.531c-5.563 5.559-8.98 11.138-11.542 17.713c-2.48 6.36-4.167 13.63-4.646 24.271c-.477 10.667-.602 14.077-.602 41.236s.12 30.557.604 41.223c.49 10.646 2.175 17.913 4.646 24.271c2.556 6.578 5.973 12.157 11.533 17.715c5.557 5.563 11.136 8.988 17.709 11.542c6.363 2.473 13.631 4.158 24.275 4.646c10.667.485 14.073.604 41.23.604c27.161 0 30.559-.119 41.225-.604c10.646-.488 17.921-2.173 24.284-4.646c6.575-2.554 12.146-5.979 17.702-11.542c5.563-5.558 8.979-11.137 11.542-17.712c2.458-6.361 4.146-13.63 4.646-24.272c.479-10.666.604-14.066.604-41.225s-.125-30.567-.604-41.234c-.5-10.646-2.188-17.912-4.646-24.27c-2.563-6.578-5.979-12.157-11.542-17.716c-5.562-5.562-11.125-8.979-17.708-11.53c-6.375-2.474-13.646-4.16-24.292-4.647c-10.667-.485-14.063-.604-41.23-.604zm-8.971 18.021c2.663-.004 5.634 0 8.971 0c26.701 0 29.865.096 40.409.575c9.75.446 15.042 2.075 18.567 3.444c4.667 1.812 7.994 3.979 11.492 7.48c3.5 3.5 5.666 6.833 7.483 11.5c1.369 3.52 3 8.812 3.444 18.562c.479 10.542.583 13.708.583 40.396s-.104 29.855-.583 40.396c-.446 9.75-2.075 15.042-3.444 18.563c-1.812 4.667-3.983 7.99-7.483 11.488c-3.5 3.5-6.823 5.666-11.492 7.479c-3.521 1.375-8.817 3-18.567 3.446c-10.542.479-13.708.583-40.409.583c-26.702 0-29.867-.104-40.408-.583c-9.75-.45-15.042-2.079-18.57-3.448c-4.666-1.813-8-3.979-11.5-7.479s-5.666-6.825-7.483-11.494c-1.369-3.521-3-8.813-3.444-18.563c-.479-10.542-.575-13.708-.575-40.413s.096-29.854.575-40.396c.446-9.75 2.075-15.042 3.444-18.567c1.813-4.667 3.983-8 7.484-11.5s6.833-5.667 11.5-7.483c3.525-1.375 8.819-3 18.569-3.448c9.225-.417 12.8-.542 31.437-.563zm62.351 16.604c-6.625 0-12 5.37-12 11.996c0 6.625 5.375 12 12 12s12-5.375 12-12s-5.375-12-12-12zm-53.38 14.021c-28.36 0-51.354 22.994-51.354 51.355s22.994 51.344 51.354 51.344c28.361 0 51.347-22.983 51.347-51.344c0-28.36-22.988-51.355-51.349-51.355zm0 18.021c18.409 0 33.334 14.923 33.334 33.334c0 18.409-14.925 33.334-33.334 33.334s-33.333-14.925-33.333-33.334c0-18.411 14.923-33.334 33.333-33.334"
+                  />
+                  <defs>
+                    <radialGradient
+                      id="SVGKdMMobCR"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientTransform="matrix(0 -253.715 235.975 0 68 275.717)"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#fd5" />
+                      <stop offset=".1" stop-color="#fd5" />
+                      <stop offset=".5" stop-color="#ff543e" />
+                      <stop offset="1" stop-color="#c837ab" />
+                    </radialGradient>
+                    <radialGradient
+                      id="SVGqYUiQbXV"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientTransform="rotate(78.68 -32.69 -16.937)scale(113.412 467.488)"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#3771c8" />
+                      <stop offset=".128" stop-color="#3771c8" />
+                      <stop offset="1" stop-color="#60f" stop-opacity="0" />
+                    </radialGradient>
+                  </defs>
+                </g>
+              </svg>
+              Instagram</a
+            >
+            <a
+              href="https://www.linkedin.com/in/andhikamandalanta"
+              target="_blank"
+              rel="noopener"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 256 256"
+              >
+                <path d="M0 0h256v256H0z" fill="none" />
+                <g fill="none">
+                  <rect width="256" height="256" fill="#0a66c2" rx="60" />
+                  <path
+                    fill="#fff"
+                    d="M184.715 217.685h29.27a4 4 0 0 0 4-3.999l.015-61.842c0-32.323-6.965-57.168-44.738-57.168c-14.359-.534-27.9 6.868-35.207 19.228a.32.32 0 0 1-.595-.161V101.66a4 4 0 0 0-4-4h-27.777a4 4 0 0 0-4 4v112.02a4 4 0 0 0 4 4h29.268a4 4 0 0 0 4-4v-55.373c0-15.657 2.97-30.82 22.381-30.82c19.135 0 19.383 17.916 19.383 31.834v54.364a4 4 0 0 0 4 4M38 59.628c0 11.864 9.767 21.626 21.632 21.626c11.862-.001 21.623-9.769 21.623-21.631C81.253 47.761 71.491 38 59.628 38C47.762 38 38 47.763 38 59.627m6.959 158.058h29.307a4 4 0 0 0 4-4V101.66a4 4 0 0 0-4-4H44.959a4 4 0 0 0-4 4v112.025a4 4 0 0 0 4 4"
+                  />
+                </g>
+              </svg>
+              LinkedIn</a
+            >
+            <a
+              href="https://www.behance.net/andhikamandalanta"
+              target="_blank"
+              rel="noopener"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 128 128"
+              >
+                <path d="M0 0h128v128H0z" fill="none" />
+                <defs>
+                  <linearGradient
+                    id="SVGdPAaMbgP"
+                    x1="64"
+                    x2="64"
+                    y1="2.16"
+                    y2="125.84"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset="0" stop-color="#005cff" />
+                    <stop offset="1" stop-color="#0047ad" />
+                  </linearGradient>
+                </defs>
+                <rect
+                  width="123.68"
+                  height="123.67"
+                  x="2.16"
+                  y="2.16"
+                  fill="url(#SVGdPAaMbgP)"
+                  rx="14.59"
+                  ry="14.59"
+                />
+                <path
+                  fill="#fff"
+                  d="M52.63 60.28s10.5-.78 10.5-13.09s-8.59-18.32-19.47-18.32H7.86v68.8h35.8s21.85.69 21.85-20.31c0 0 .96-17.08-12.88-17.08m-29-19.18h20s4.87 0 4.87 7.16s-2.86 8.2-6.11 8.2H23.64zm19.1 44.34H23.64V67.06h20s7.25-.1 7.25 9.45c.02 7.95-5.28 8.85-8.15 8.93zm51.93-39.06c-26.46 0-26.43 26.43-26.43 26.43s-1.82 26.3 26.43 26.3c0 0 23.54 1.34 23.54-18.29h-12.1s.4 7.4-11 7.4c0 0-12.11.81-12.11-12h35.65s3.87-29.84-23.98-29.84m10.76 20.68h-22.6s1.48-10.6 12.11-10.6s10.49 10.6 10.49 10.6M79.86 32.93h28.38v8.47H79.86z"
+                />
+              </svg>
+              Behance</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer reveal">
+        <div class="section-inner footer-inner">
+          <div class="logo footer-logo">
+            <img src="assets/logo.svg" alt="Logo M" />
+            <span>Andhika Mandalanta Saragih</span>
+          </div>
+          <p>&copy; 2026 AMS. Dibuat dengan niat baik dan banyak kopi.</p>
+          <a href="#" class="back-to-top">Kembali ke atas &uarr;</a>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Toggle menu mobile
+      const navToggle = document.getElementById("navToggle");
+      const navLinks = document.querySelector(".nav-links");
+      if (navToggle && navLinks) {
+        navToggle.addEventListener("click", () => {
+          const isOpen = navLinks.classList.toggle("is-open");
+          navToggle.classList.toggle("is-open", isOpen);
+          navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+        navLinks.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            navLinks.classList.remove("is-open");
+            navToggle.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+      // Reveal animation saat scroll (menghormati prefers-reduced-motion)
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const revealEls = document.querySelectorAll(
+        ".reveal, .reveal-left, .reveal-right, .reveal-scale, .hero-anim",
+      );
+      if (!prefersReducedMotion && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              entry.target.classList.toggle("is-visible", entry.isIntersecting);
+            });
+          },
+          { threshold: 0.15 },
+        );
+        revealEls.forEach((el) => observer.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+    </script>
+  </body>
 </html>

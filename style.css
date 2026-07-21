@@ -1,365 +1,1441 @@
 /* --- Reset & Base Styles --- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: -0.05em; /* Disesuaikan agar porsinya tidak terlalu rapat merusak keterbacaan global */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  letter-spacing: -0.05em; /* Disesuaikan agar porsinya tidak terlalu rapat merusak keterbacaan global */
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-    /* LAYER 1: Tekstur kertas paling dasar */
-    background-image: url('assets/bg-tekstur.png');
-    background-repeat: repeat;
-    background-position: center;
-    background-color: #e5e5eb; 
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
+  background-color: #e5e5eb;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ==========================================================================
+   LAYER BLOB GRADASI (background hidup, mengalir dari navbar sampai footer)
+   Fixed di belakang seluruh halaman, warnanya dari palet yang sudah ada:
+   ungu #cabdf0, biru #b9c8ef, oren #f5ddb8, aksen #6c5ce7.
+   ========================================================================== */
+.site-bg-blobs {
+  position: absolute; /* dulu 'fixed' (nempel ke viewport) -> 'absolute' (ikut tinggi seluruh dokumen) */
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.8;
+}
+
+.blob-1 {
+  width: 560px;
+  height: 560px;
+  top: -4%;
+  left: -10%;
+  background: #cabdf0;
+}
+.blob-2 {
+  width: 480px;
+  height: 480px;
+  top: 6%;
+  right: -8%;
+  background: #b9c8ef;
+}
+.blob-3 {
+  width: 520px;
+  height: 520px;
+  top: 26%;
+  left: 55%;
+  background: #6c5ce7;
+  opacity: 0.22;
+}
+.blob-4 {
+  width: 500px;
+  height: 500px;
+  top: 45%;
+  left: -8%;
+  background: #f5ddb8;
+}
+.blob-5 {
+  width: 480px;
+  height: 480px;
+  top: 62%;
+  right: -6%;
+  background: #cabdf0;
+}
+.blob-6 {
+  width: 520px;
+  height: 520px;
+  top: 80%;
+  left: 30%;
+  background: #b9c8ef;
+}
+.blob-7 {
+  width: 460px;
+  height: 460px;
+  top: 95%;
+  right: -8%;
+  background: #f5ddb8;
+}
+
+/* --- Hero Wrap (membungkus navbar + hero-stage, jadi anchor bg-tekstur.png) --- */
+.hero-wrap {
+  position: relative;
+  padding-bottom: 70px; /* Bikin bg-tekstur.png memanjang sampai sebelum section About dimulai */
+}
+
+/* --- Hero Stage (panggung untuk layer 2-4) --- */
+.hero-stage {
+  position: relative;
+  /* Gradasi lama dihapus supaya tidak "menembus" kartu berserakan yang transparan */
 }
 
 /* --- Navbar --- */
 .navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    padding: 15px 60px; 
-    position: relative;
-    width: 100%;
-    z-index: 100; /* Lapisan navigasi terdepan */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 60px;
+  position: relative;
+  width: 100%;
+  z-index: 100; /* Lapisan navigasi terdepan */
 }
 
 .logo img {
-    height: 2em; /* Menggunakan em proporsional, jika 2.8em terlalu raksasa */
-    width: auto;   
-    display: block;
+  height: 2em; /* Menggunakan em proporsional, jika 2.8em terlalu raksasa */
+  width: auto;
+  display: block;
 
-    filter: invert(1) brightness(0.2);
+  filter: invert(1) brightness(0.2);
 }
 
 /* --- Penyesuaian Menu Navigasi (Teks Menyala Putih + Garis Bawah) --- */
 .nav-links a {
-    text-decoration: none;
-    color: #000; /* Kondisi awal biasa: warna hitam minimalis */
-    margin-left: 2rem;
-    font-weight: 500;
-    position: relative; /* Menjadi jangkar posisi untuk garis bawah */
-    display: inline-block;
-    padding: 4px 0; /* Memberi sedikit ruang vertikal untuk jarak garis bawah */
-    
-    /* Transisi halus saat teks berubah warna dan menyala */
-    transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: #000; /* Kondisi awal biasa: warna hitam minimalis */
+  margin-left: 2rem;
+  font-weight: 500;
+  position: relative; /* Menjadi jangkar posisi untuk garis bawah */
+  display: inline-block;
+  padding: 4px 0; /* Memberi sedikit ruang vertikal untuk jarak garis bawah */
+
+  /* Transisi halus saat teks berubah warna dan menyala */
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease,
+    transform 0.2s ease;
 }
 
 /* Membuat Elemen Garis Bawah (Tersembunyi secara default) */
 .nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px; /* Ketebalan garis bawah */
-    bottom: 0; /* Menempel di batas bawah teks */
-    left: 0;
-    background-color: #fff; /* Warna garis bawah putih */
-    
-    /* Kondisi awal garis bawah: menciut di tengah dan transparan */
-    transform: scaleX(0);
-    transform-origin: center;
-    opacity: 0;
-    
-    /* Efek transisi halus saat garis memanjang keluar */
-    transition: transform 0.3s ease, opacity 0.3s ease;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px; /* Ketebalan garis bawah */
+  bottom: 0; /* Menempel di batas bawah teks */
+  left: 0;
+  background-color: #fff; /* Warna garis bawah putih */
+
+  /* Kondisi awal garis bawah: menciut di tengah dan transparan */
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+
+  /* Efek transisi halus saat garis memanjang keluar */
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* --- EFEK HOVER: NYALA PUTIH & GARIS BAWAH MUNCUL --- */
 .nav-links a:hover {
-    color: #fff; /* Teks berubah menjadi warna putih bersih */
-    
-    /* Efek Pendaran Cahaya Putih (Text Glow) agar teks putihnya menyala terang */
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 
-                 0 0 15px rgba(255, 255, 255, 0.6),
-                 0 0 25px rgba(108, 92, 231, 0.3); /* Sentuhan pendaran ungu tipis di layer paling belakang */
-                 
-    transform: translateY(-1px); /* Sedikit naik tipis agar terasa interaktif */
+  color: #fff; /* Teks berubah menjadi warna putih bersih */
+
+  /* Efek Pendaran Cahaya Putih (Text Glow) agar teks putihnya menyala terang */
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.9),
+    0 0 15px rgba(255, 255, 255, 0.6),
+    0 0 25px rgba(108, 92, 231, 0.3); /* Sentuhan pendaran ungu tipis di layer paling belakang */
+
+  transform: translateY(-1px); /* Sedikit naik tipis agar terasa interaktif */
 }
 
 /* Garis bawah otomatis memanjang dari tengah dan menyala saat di-hover */
 .nav-links a:hover::after {
-    transform: scaleX(1); /* Melebar penuh 100% mengikuti lebar teks */
-    opacity: 1;
-    
-    /* Memberikan efek glow yang sama pada garis bawahnya */
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9); 
+  transform: scaleX(1); /* Melebar penuh 100% mengikuti lebar teks */
+  opacity: 1;
+
+  /* Memberikan efek glow yang sama pada garis bawahnya */
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
 }
 
-/* --- LAYER 2: Bingkai Latar Belakang Ungu --- */
+/* --- LAYER 2: Bingkai Kaca (Glass) di atas gradasi hero-stage --- */
 .hero-container {
-    position: relative; 
-    /* Ganti height ke 80vh agar tidak terlalu memanjang ke bawah di layar vertikal */
-    height: 90vh; 
-    min-height: 500px;
-    margin: 0 60px 40px 60px; /* Jarak tetap aman */
-    border-top-left-radius: 2em; /* */
-    border-top-right-radius: 2em; /*[cite: 2] */
-    z-index: 2; /*[cite: 2] */
-    overflow: hidden; /*[cite: 2] */
+  position: relative; /* Jadi positioning context untuk semua layer di dalamnya */
+  /* Ganti height ke 80vh agar tidak terlalu memanjang ke bawah di layar vertikal */
+  height: 90vh;
+  min-height: 500px;
+  margin: 0 60px 40px 60px; /* Jarak tetap aman */
+  border-radius: 2em; /* Border radius rata di keempat sisi */
+  z-index: 2; /*[cite: 2] */
+  overflow: hidden; /*[cite: 2] */
+  isolation: isolate; /* Membentuk stacking context sendiri agar z-index layer internal tidak bentrok dengan foreground-content */
 
-    background-image: url('assets/hero-bg.jpg'); /*[cite: 2] */
-    
-    /* --- PERBAIKAN UTAMA BACKGROUND --- */
-    /* Menggunakan cover agar gambar dipotong proporsional, bukan ditarik gepeng */
-    background-size: cover; 
-    background-position: center bottom; /* Fokus gambar tetap di area karakter bawah */
-    background-repeat: no-repeat; /*[cite: 2] */
+  /* Efek kaca buram: membiaskan gradasi warna dari .hero-stage di belakangnya */
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(34px) saturate(160%);
+  -webkit-backdrop-filter: blur(34px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 
-    box-shadow: 
-        0 4px 10px rgba(0, 0, 0, 0.20),
-        0 15px 30px rgba(0, 0, 0, 0.20),
-        0 30px 60px rgba(0, 0, 0, 0.20); /*[cite: 2] */
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 15px 30px rgba(0, 0, 0, 0.2),
+    0 30px 60px rgba(0, 0, 0, 0.2); /*[cite: 2] */
 }
 
-/* --- LAYER 3: Kontainer Karakter Utama --- */
-/* --- LAYER 3: Kontainer Karakter Utama & Gradasi --- */
+/* --- LAYER 1: Texture paling belakang, mengisi seluruh panggung hero-stage --- */
+.hero-bg-texture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-bg-texture img {
+  width: 100%;
+  height: 92%;
+  object-fit: cover;
+  display: block;
+
+  /* Efek fade-out: makin ke bawah makin transparan/hilang */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* --- LAYER 1b: Kartu berserakan (hiasan) di BELAKANG bingkai kaca, di level hero-stage
+     supaya bisa bocor ke pinggir (tidak di-clip oleh overflow:hidden milik hero-container) --- */
+.hero-scatter-cards {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* di bawah .hero-container (z-index: 2) */
+  opacity: 0.5;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.scatter-card {
+  position: absolute;
+  width: 260px;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Diposisikan pas di sudut/pinggir hero-stage, sengaja bleed keluar sampai
+   nempel/melewati tepi layar seperti pada desain awal */
+.scatter-1 {
+  top: -40px;
+  left: -90px;
+  transform: scaleX(-1) rotate(-14deg);
+}
+.scatter-2 {
+  top: -30px;
+  right: -100px;
+  transform: scaleX(-1) rotate(16deg);
+}
+.scatter-3 {
+  bottom: 20px;
+  left: -80px;
+  transform: scaleX(-1) rotate(10deg);
+}
+.scatter-4 {
+  bottom: 10px;
+  right: -90px;
+  transform: scaleX(-1) rotate(-12deg);
+}
+
+/* --- LAYER 2a: hero-bg.jpg, full cover mengisi seluruh hero-container --- */
+.hero-bg-square {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.5; /* di dalam stacking context hero-container: paling belakang */
+}
+
+.hero-bg-square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- LAYER 2b: Kontainer Karakter Utama --- */
 .character-wrapper {
-    position: absolute;
-    bottom: 0px; /* Menempel pas di batas bawah hero-container[cite: 4] */
-    left: 50%; /*[cite: 4] */
-    transform: translateX(-50%); /*[cite: 4] */ 
-    width: 100%; /*[cite: 4] */
-    height: 90vh; /* Menyamakan tinggi kontainer dengan panggung hero-container agar presisi */
-    z-index: 3; /*[cite: 4] */
-    pointer-events: none; /*[cite: 4] */
-    
-    /* Trik Kunci: Menggunakan relative-absolute internal agar gambar bisa menumpuk di tengah */
-    position: absolute;
+  position: absolute;
+  bottom: 0px; /* Menempel pas di batas bawah hero-container */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%; /* Mengikuti tinggi hero-container (parent-nya sekarang) */
+  z-index: 3;
+  pointer-events: none;
 }
 
-/* Pengaturan Gambar Latar Belakang 2 Warna */
-.bg-shade {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    max-height: 100%; /* Mengikuti tinggi maksimal panggung */
-    width: 90.5%;
-    object-fit: cover;
-    display: block;
-    z-index: 2; /* Berada di lapisan belakang kontainer */
-}
-
-/* Pengaturan Gambar Ilustrasi Karakter Utama (Tepat di Depan bg-2warna) */
+/* Pengaturan Gambar Ilustrasi Karakter Utama */
 .main-char {
-    position: absolute;
-    bottom: 0; /* Mengunci kaki karakter di batas bawah yang sama */
-    left: 50%;
-    transform: translateX(-50%);
-    max-height: 95%; /* Dibuat sedikit lebih kecil atau sama agar proporsinya pas di dalam bingkai */
-    width: auto; /*[cite: 4] */
-    object-fit: contain; /*[cite: 4] */
-    display: block; /*[cite: 4] */
-    z-index: 1; /* Mengangkat gambar karakter tepat di atas bg-shade */
+  position: absolute;
+  bottom: 0; /* Mengunci kaki karakter di batas bawah yang sama */
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 95%; /* Dibuat sedikit lebih kecil atau sama agar proporsinya pas di dalam bingkai */
+  width: auto; /*[cite: 4] */
+  object-fit: contain; /*[cite: 4] */
+  display: block; /*[cite: 4] */
+  z-index: 1; /* Berada di atas gradasi & dekorasi hero-container */
+}
+
+/* --- LAYER 2e: Gradasi oren-ungu, paling atas di dalam hero-container --- */
+.hero-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hero-gradient-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* --- LAYER 4: Hamparan Konten Depan (Melayang Bebas di Atas Karakter) --- */
 .foreground-content {
-    position: absolute;
-    top: 0px; /* Dimulai di bawah area navbar */
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 140px);
-    z-index: 4; /* Berada di atas layer karakter (z-index: 3) secara mutlak */
-    pointer-events: none; /* Melewatkan sensor kursor pada area kosong pembungkus */
+  position: absolute;
+  top: 0px; /* Dimulai di bawah area navbar */
+  left: 0;
+  width: 100%;
+  height: 90vh; /* Disamakan persis dengan tinggi .hero-container agar kartu tidak meluber ke section berikutnya */
+  min-height: 500px;
+  z-index: 4; /* Berada di atas layer karakter (z-index: 3) secara mutlak */
+  pointer-events: none; /* Melewatkan sensor kursor pada area kosong pembungkus */
 }
 
 /* Mengaktifkan kembali fungsi sensor mouse khusus untuk area kartu dan teks tulisan */
-.cards-wrapper, .intro-wrapper {
-    pointer-events: auto; 
+.cards-wrapper,
+.intro-wrapper {
+  pointer-events: auto;
 }
 
 /* --- SISI KIRI: Tumpukan Kartu Karya --- */
 .cards-wrapper {
-    position: absolute;
-    left: 130px; /* Jarak melayang bebas di sisi kiri */
-    top: 60%;
-    transform: translateY(-50%); 
-    width: 240px;
-    height: 400px;
+  position: absolute;
+  left: 260px; /* Jarak melayang bebas di sisi kiri */
+  top: 50%; /* Disamakan dengan intro-wrapper agar garis tengahnya sejajar */
+  transform: translateY(-50%);
+  width: 210px;
+  height: 450px;
 }
 
 .card {
-    position: absolute;
-    width: 240px; 
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), z-index 0s, box-shadow 0.4s;
+  position: absolute;
+  width: 210px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition:
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    z-index 0s,
+    box-shadow 0.4s;
 }
 
 .card img {
-    width: 100%;
-    height: auto;
-    display: block;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Kita renggangkan jarak top agar kartu menyebar lebih proporsional ke atas dan bawah */
-.card-1 { transform: rotate(-10deg); top: -20px; left: -10px; z-index: 4; } /* Diangkat lebih ke atas (dari 0 ke -20px) */
-.card-2 { transform: rotate(6deg);  top: 25px;  left: 70px;  z-index: 3; } /* Diturunkan sedikit (dari 30px ke 25px) */
-.card-3 { transform: rotate(-5deg); top: 140px; left: -40px; z-index: 2; } /* Diturunkan lebih ke bawah (dari 120px ke 140px) */
-.card-4 { transform: rotate(8deg);  top: 230px; left: 45px;  z-index: 1; } /* Didorong paling bawah (dari 190px ke 230px) */
+.card-1 {
+  transform: rotate(-10deg);
+  top: -58px;
+  left: -9px;
+  z-index: 4;
+}
+.card-2 {
+  transform: rotate(6deg);
+  top: 16px;
+  left: 62px;
+  z-index: 3;
+}
+.card-3 {
+  transform: rotate(-5deg);
+  top: 152px;
+  left: -35px;
+  z-index: 2;
+}
+.card-4 {
+  transform: rotate(12deg);
+  top: 263px;
+  left: 39px;
+  z-index: 1;
+}
 
 /* LOGIKA HOVER: Meluruskan posisi, menaikkan layer, membesarkan ukuran + BAYANGAN REALISTIS */
 .card:hover {
-    transform: rotate(0deg) scale(1.08);
-    z-index: 99 !important; /* Memaksa kartu naik ke paling atas */
-    
-    /* 
+  transform: rotate(0deg) scale(1.08);
+  z-index: 99 !important; /* Memaksa kartu naik ke paling atas */
+
+  /* 
        EFEK BAYANGAN REALISTIS (Multiple Layers Box-Shadow):
        - Layer 1 (Paling atas): Bayangan tipis, agak tajam dekat objek sebagai pembatas.
        - Layer 2 (Tengah): Bayangan medium yang mulai menyebar ke bawah.
        - Layer 3 (Paling bawah): Bayangan sangat lembut, transparan, dan menyebar luas untuk memberikan efek melayang tinggi.
     */
-    box-shadow: 
-        0 4px 10px rgba(0, 0, 0, 0.08),
-        0 20px 40px rgba(0, 0, 0, 0.40),
-        0 30px 60px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 30px 60px rgba(0, 0, 0, 0.18);
 }
 
 /* --- SISI KANAN: Teks Intro & CTA --- */
 .intro-wrapper {
-    position: absolute;
-    right: 100px; /* Jarak melayang bebas di sisi kanan */
-    top: 80%;
-    transform: translateY(-50%); 
-    width: 30%; 
+  position: absolute;
+  right: 100px; /* Jarak melayang bebas di sisi kanan */
+  top: 50%; /* Disamakan dengan cards-wrapper agar garis tengahnya sejajar */
+  transform: translateY(-50%);
+  width: 30%;
 }
 
 .intro-wrapper h1 {
-    font-size: 2.6rem; 
-    font-weight: 400;
-    line-height: 1.25;
-    color: #111;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.1em; /* Mengunci letter spacing -10% sesuai desain Figma */
+  font-size: 2.6rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #111;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.1em; /* Mengunci letter spacing -10% sesuai desain Figma */
 }
 
 /* --- ANIMASI STABILO BERSAMAAN DAN LEBIH LAMBAT --- */
 
 .highlight {
-    padding: 0 6px;
-    border-radius: 4px;
-    display: inline-block;
-    
-    /* Menggunakan linear-gradient sebagai background cair yang bisa dimanipulasi */
-    background-repeat: no-repeat;
-    background-size: 0% 100%; /* Kondisi awal: 0% tersembunyi di kiri */
-    background-position: left center; /* Memastikan sapuan awal dimulai dari KIRI ke KANAN */
-    
-    /* Menghubungkan ke satu nama animasi yang sama agar gerakannya sinkron bersisian */
-    animation-name: highlight-together-flow;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-    animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 0 6px;
+  border-radius: 4px;
+  display: inline-block;
+
+  /* Menggunakan linear-gradient sebagai background cair yang bisa dimanipulasi */
+  background-repeat: no-repeat;
+  background-size: 0% 100%; /* Kondisi awal: 0% tersembunyi di kiri */
+  background-position: left center; /* Memastikan sapuan awal dimulai dari KIRI ke KANAN */
+
+  /* Menghubungkan ke satu nama animasi yang sama agar gerakannya sinkron bersisian */
+  animation-name: highlight-together-flow;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Mengembalikan pengaturan warna murni tanpa dipisah timelimenya */
-.highlight.uiux { 
-    background-image: linear-gradient(#c4d7f5, #c4d7f5); /* Biru pastel */
-} 
+.highlight.uiux {
+  background-image: linear-gradient(#a4c4f7, #a4c4f7); /* Biru pastel */
+}
 
-.highlight.graphic { 
-    background-image: linear-gradient(#f7e7c4, #f7e7c4); /* Kuning pastel */
+.highlight.graphic {
+  background-image: linear-gradient(#f7e0ae, #f7e0ae); /* Kuning pastel */
 }
 
 /* --- LOGIKA TIMING SINKRON (TOTAL 4 DETIK) --- */
 @keyframes highlight-together-flow {
-    0% { 
-        background-size: 0% 100%; 
-        background-position: left center; 
-    }
-    /* Gerakan menyapu dibuat sedikit lebih lambat (mencapai 100% pada 18% durasi, sekitar 0.7 detik) */
-    18% { 
-        background-size: 100% 100%; 
-        background-position: left center; 
-    }
-    /* Menahan efek stabilo menyala penuh agar audiens nyaman membaca */
-    55% { 
-        background-size: 100% 100%; 
-        background-position: left center; 
-    }
-    /* Menghilang bersamaan, menyapu gulung keluar ke arah KANAN */
-    65% { 
-        background-size: 0% 100%; 
-        background-position: right center; 
-    }
-    /* Sisa durasi (65% hingga 100%) digunakan untuk jeda diam/polos sebelum loop 4 detik berikutnya aktif */
-    100% { 
-        background-size: 0% 100%; 
-        background-position: right center; 
-    }
+  0% {
+    background-size: 0% 100%;
+    background-position: left center;
+  }
+  /* Gerakan menyapu dibuat sedikit lebih lambat (mencapai 100% pada 18% durasi, sekitar 0.7 detik) */
+  18% {
+    background-size: 100% 100%;
+    background-position: left center;
+  }
+  /* Menahan efek stabilo menyala penuh agar audiens nyaman membaca */
+  55% {
+    background-size: 100% 100%;
+    background-position: left center;
+  }
+  /* Menghilang bersamaan, menyapu gulung keluar ke arah KANAN */
+  65% {
+    background-size: 0% 100%;
+    background-position: right center;
+  }
+  /* Sisa durasi (65% hingga 100%) digunakan untuk jeda diam/polos sebelum loop 4 detik berikutnya aktif */
+  100% {
+    background-size: 0% 100%;
+    background-position: right center;
+  }
 }
 
 .sub-text {
-    font-size: 1.2rem;
-    color: #ffffff;
-    margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
 }
 
 .btn-talk {
-    display: inline-block;
-    padding: 1rem 1rem;
-    background-color: #ffffffb5;
-    backdrop-filter: blur(8px);
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    color: #000;
-    text-decoration: none;
-    font-weight: 500;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
+  display: inline-block;
+  padding: 1rem 1rem;
+  background-color: #ffffffb5;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 
-    /* --- HUBUNGKAN KE ANIMASI LOOPING GLOW --- */
-    /* Berdurasi 3 detik, berulang terus (infinite), melambat di ujung (ease-in-out) */
-    animation: button-glow-pulse 3s infinite ease-in-out;
+  /* --- HUBUNGKAN KE ANIMASI LOOPING GLOW --- */
+  /* Berdurasi 3 detik, berulang terus (infinite), melambat di ujung (ease-in-out) */
+  animation: button-glow-pulse 3s infinite ease-in-out;
 }
 
 /* --- LOGIKA EFEK HOVER KETIKA KURSOR DATANG --- */
 .btn-talk:hover {
-    background-color: #000;
-    color: #fff;
-    transform: translateY(-2px);
-    
-    /* 
+  background-color: #000;
+  color: #fff;
+  transform: translateY(-2px);
+
+  /* 
        Trik Kunci: Mengganti animasi pulsing otomatis dengan bayangan hover yang solid 
        dan lebih tegas saat disentuh kursor 
     */
-    animation: none; 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), 
-                0 0 20px rgba(108, 92, 231, 0.4); 
+  animation: none;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(108, 92, 231, 0.4);
 }
 
 /* --- TIMELINE ANIMASI PULSING GLOW (SAAT DIAM) --- */
 @keyframes button-glow-pulse {
-    0% {
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08),
-                    0 0 0px rgba(108, 92, 231, 0);
-        background-color: #ffffffb5;
-    }
-    /* Di pertengahan (detik ke 1.5), warna dasar sedikit lebih cerah dan memancarkan pendaran cahaya */
-    50% {
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05),
-                    0 0 20px rgba(108, 92, 231, 0.4),  /* Pendaran ungu luar melayang lembut */
-                    0 0 40px rgba(255, 255, 255, 0.6); /* Pendaran putih terang */
-        background-color: #ffffffdf; /* Warna putih dasarnya mengental menyala */
-    }
-    100% {
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08),
-                    0 0 0px rgba(108, 92, 231, 0);
-        background-color: #ffffffb5;
-    }
+  0% {
+    box-shadow:
+      0 6px 15px rgba(0, 0, 0, 0.08),
+      0 0 0px rgba(108, 92, 231, 0);
+    background-color: #ffffffb5;
+  }
+  /* Di pertengahan (detik ke 1.5), warna dasar sedikit lebih cerah dan memancarkan pendaran cahaya */
+  50% {
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.05),
+      0 0 20px rgba(108, 92, 231, 0.4),
+      /* Pendaran ungu luar melayang lembut */ 0 0 40px rgba(255, 255, 255, 0.6); /* Pendaran putih terang */
+    background-color: #ffffffdf; /* Warna putih dasarnya mengental menyala */
+  }
+  100% {
+    box-shadow:
+      0 6px 15px rgba(0, 0, 0, 0.08),
+      0 0 0px rgba(108, 92, 231, 0);
+    background-color: #ffffffb5;
+  }
 }
 
-/* --- RESPONSIVE MOBILE LAYOUT --- */
+/* ==========================================================================
+   DESIGN TOKENS (dipakai oleh section-section baru di bawah hero)
+   ========================================================================== */
+:root {
+  --ink: #111111;
+  --muted: #5c5c68;
+  --bg-page: #e5e5eb;
+  --surface: #ffffff;
+  --surface-soft: #ffffffb5;
+  --accent: #6c5ce7;
+  --accent-dark: #4b3fc4;
+  --highlight-blue: #c4d7f5;
+  --highlight-yellow: #f7e7c4;
+  --border-soft: rgba(17, 17, 17, 0.08);
+  --shadow-soft: 0 20px 45px rgba(17, 17, 17, 0.08);
+}
+
+/* ==========================================================================
+   NAV TOGGLE (Hamburger untuk Mobile)
+   ========================================================================== */
+.nav-toggle {
+  display: none;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 200;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #111;
+  border-radius: 2px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   KONTEN DI BAWAH HERO — Struktur Umum Section
+   ========================================================================== */
+.page-content {
+  position: relative;
+  z-index: 5;
+  background-color: transparent;
+}
+
+.section {
+  padding: 68px 0;
+}
+
+.section-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.section-heading h2,
+.about-copy h2,
+.contact-section h2 {
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.1em;
+  color: var(--ink);
+  max-width: 540px;
+}
+
+.body-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--muted);
+  letter-spacing: -0.05em;
+  max-width: 560px;
+  margin-top: 1.1rem;
+}
+
+.section-desc {
+  max-width: 620px;
+}
+
+/* ==========================================================================
+   HERO ENTRANCE ANIMATION
+   Beda dari .reveal biasa karena beberapa elemen hero (karakter, tumpukan
+   kartu) sudah punya transform sendiri untuk positioning (translate/rotate),
+   jadi transform awal & akhirnya ditulis manual per elemen supaya posisi
+   aslinya tidak rusak.
+   ========================================================================== */
+.hero-anim {
+  opacity: 0;
+  transition:
+    opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.hero-anim-navbar {
+  transform: translateY(-24px);
+}
+
+.hero-anim-scatter {
+  /* opacity akhir dikunci ke 0.5 sesuai desain asli, bukan 1 */
+}
+
+.hero-anim-char {
+  transform: translateX(-50%) translateY(60px);
+}
+
+.hero-anim-cards {
+  transform: translateY(-50%) translateX(-60px);
+}
+
+.hero-anim.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-anim-scatter.is-visible {
+  opacity: 0.5;
+}
+
+.hero-anim-char.is-visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.hero-anim-cards.is-visible {
+  transform: translateY(-50%) translateX(0);
+}
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.reveal-left {
+  transform: translate(-56px, 0);
+}
+
+.reveal-right {
+  transform: translate(56px, 0);
+}
+
+.reveal-scale {
+  transform: scale(0.92);
+}
+
+.reveal.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* Stagger halus untuk elemen di dalam grid/kartu */
+.reveal-delay-1 {
+  --reveal-delay: 0.18s;
+}
+.reveal-delay-2 {
+  --reveal-delay: 0.36s;
+}
+.reveal-delay-3 {
+  --reveal-delay: 0.54s;
+}
+.reveal-delay-4 {
+  --reveal-delay: 0.72s;
+}
+
+/* ==========================================================================
+   ABOUT SECTION
+   ========================================================================== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.8rem;
+}
+
+.tool-tags span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  padding: 0.5rem 1rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 100px;
+  color: var(--ink);
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.stat-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 1.8rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+}
+
+.stat-card--accent {
+  background-color: var(--accent);
+}
+
+.stat-card--accent .stat-number,
+.stat-card--accent .stat-label {
+  color: #fff;
+}
+
+.stat-number {
+  font-size: 2.1rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   GRAPHIC DESIGN SECTION
+   ========================================================================== */
+.section-heading {
+  margin-bottom: 2.75rem;
+}
+
+.gd-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.gd-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: var(--surface);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition:
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.4s ease;
+}
+
+.gd-card-1 {
+  transform: rotate(-2deg);
+}
+.gd-card-2 {
+  transform: rotate(1.5deg);
+}
+.gd-card-3 {
+  transform: rotate(-1.5deg);
+}
+.gd-card-4 {
+  transform: rotate(2deg);
+}
+
+.gd-card:hover {
+  transform: rotate(0deg) translateY(-10px) scale(1.03);
+  box-shadow: 0 25px 45px rgba(17, 17, 17, 0.18);
+  z-index: 5;
+}
+
+.gd-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.gd-caption {
+  padding: 1.1rem 1.2rem 1.4rem;
+}
+
+.gd-caption h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.gd-caption p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   UI/UX SECTION — Browser mockup dibuat murni dengan CSS
+   ========================================================================== */
+.uiux-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+}
+
+.uiux-card {
+  background-color: var(--surface);
+  border-radius: 20px;
+  padding: 1.1rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.uiux-card:hover {
+  transform: translateY(-8px);
+}
+
+.uiux-thumb {
+  border-radius: 12px;
+  aspect-ratio: 4 / 3;
+  background-color: #f3f3f7;
+}
+
+.uiux-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.07),
+    0 8px 12px rgba(17, 17, 17, 0.08),
+    0 28px 44px rgba(17, 17, 17, 0.16);
+  transition:
+    box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.uiux-card:hover .uiux-thumb img {
+  transform: translateY(-4px);
+  box-shadow:
+    0 2px 3px rgba(17, 17, 17, 0.08),
+    0 12px 18px rgba(17, 17, 17, 0.1),
+    0 36px 56px rgba(17, 17, 17, 0.2);
+}
+
+.uiux-caption {
+  padding: 1.2rem 0.4rem 0.4rem;
+}
+
+.uiux-caption h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.uiux-caption p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  letter-spacing: -0.02em;
+  margin-top: 0.35rem;
+  line-height: 1.5;
+}
+
+.tag-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.tag-row span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  background-color: #f0f0f6;
+  color: var(--muted);
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   CONTACT SECTION
+   ========================================================================== */
+.contact-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(
+    circle,
+    rgba(108, 92, 231, 0.18),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.contact-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.contact-section h2 {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.contact-section .body-text {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-talk--lg {
+  margin-top: 2.2rem;
+  padding: 1.1rem 2rem;
+  font-size: 1.15rem;
+}
+
+.social-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-row a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 100px;
+  background-color: var(--surface);
+  transition: all 0.3s ease;
+}
+
+.tag-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.social-row a:hover {
+  background-color: var(--ink);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 2.5rem 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer-logo img {
+  height: 1.4em;
+  filter: invert(1) brightness(0.2);
+}
+
+.footer-logo span {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.site-footer p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: -0.02em;
+}
+
+.back-to-top {
+  font-size: 0.85rem;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   RESPONSIVE — TABLET (max-width: 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 15px 30px;
+  }
+  .hero-container {
+    margin: 0 30px 30px 30px;
+  }
+  .section-inner {
+    padding: 0 30px;
+  }
+
+  .cards-wrapper {
+    left: 40px;
+    transform: translateY(-50%) scale(0.85);
+  }
+  .intro-wrapper {
+    right: 40px;
+    width: 42%;
+  }
+  .intro-wrapper h1 {
+    font-size: 2.1rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .about-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .gd-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .uiux-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* ==========================================================================
    PERBAIKAN TOTAL MOBILE LAYOUT (MENGIKUTI ALUR URUTAN KONTEN)
    ========================================================================== */
+@media (max-width: 768px) {
+  /* --- Navbar jadi hamburger --- */
+  .navbar {
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 20px 40px rgba(17, 17, 17, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      visibility 0.25s;
+  }
+
+  .nav-links.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav-links a {
+    color: #111;
+    margin-left: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .nav-links a::after {
+    display: none;
+  }
+
+  .nav-links a:hover {
+    color: #fff;
+    background-color: var(--accent);
+    text-shadow: none;
+    transform: none;
+  }
+
+  /* --- Hero: dari layout absolut ke alur normal (stacked) --- */
+  .hero-container {
+    height: auto;
+    min-height: 0;
+    margin: 0 16px 24px 16px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .character-wrapper {
+    position: relative;
+    height: 340px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .main-char {
+    max-height: 100%;
+  }
+
+  .foreground-content {
+    position: relative;
+    height: auto;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+  }
+
+  .intro-wrapper {
+    position: relative;
+    right: 0;
+    top: 0;
+    transform: none;
+    width: 100%;
+    order: 1;
+    text-align: left;
+    padding-top: 24px;
+  }
+
+  .intro-wrapper h1 {
+    font-size: 1.7rem;
+  }
+
+  .cards-wrapper {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    order: 2;
+    width: 100%;
+    height: 300px;
+    margin: 20px 0 10px;
+  }
+
+  .card {
+    width: 150px;
+  }
+  .card-1 {
+    top: -10px;
+    left: 10px;
+  }
+  .card-2 {
+    top: 20px;
+    left: 130px;
+  }
+  .card-3 {
+    top: 130px;
+    left: 0px;
+  }
+  .card-4 {
+    top: 160px;
+    left: 140px;
+  }
+
+  /* --- Section spacing lebih ringkas di mobile --- */
+  .section {
+    padding: 48px 0;
+  }
+  .section-inner {
+    padding: 0 24px;
+  }
+  .section-heading {
+    margin-bottom: 2.2rem;
+  }
+
+  .section-heading h2,
+  .about-copy h2,
+  .contact-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .body-text {
+    max-width: 100%;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+  }
+
+  .gd-grid {
+    grid-template-columns: 1fr;
+  }
+  .gd-card {
+    transform: none !important;
+  }
+
+  .uiux-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-wrapper h1 {
+    font-size: 1.45rem;
+  }
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
+  .cards-wrapper {
+    height: 460px;
+  }
+  .card {
+    width: 130px;
+  }
+  .card-1 {
+    top: -10px;
+    left: 10px;
+  }
+  .card-2 {
+    top: 110px;
+    left: 130px;
+  }
+  .card-3 {
+    top: 220px;
+    left: 10px;
+  }
+  .card-4 {
+    top: 330px;
+    left: 130px;
+  }
+  .btn-talk--lg {
+    width: 100%;
+    text-align: center;
+  }
+  .social-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE — LAYAR PENDEK (laptop dengan tinggi terbatas, mis. 1280x720)
+   ========================================================================== */
+@media (max-height: 820px) {
+  .cards-wrapper {
+    transform: translateY(-50%) scale(0.75);
+    left: 210px;
+  }
+}
+
+@media (max-height: 620px) {
+  .cards-wrapper {
+    transform: translateY(-50%) scale(0.6);
+    left: 180px;
+  }
+}
+
+/* Menghormati preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-anim {
+    opacity: 1;
+  }
+  .hero-anim-navbar {
+    transform: none;
+  }
+  .hero-anim-scatter {
+    opacity: 0.5;
+  }
+  .hero-anim-char {
+    transform: translateX(-50%);
+  }
+  .hero-anim-cards {
+    transform: translateY(-50%);
+  }
+}
