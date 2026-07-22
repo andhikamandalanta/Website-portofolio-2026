@@ -508,7 +508,7 @@ body {
   background-color: #ffffffb5;
   backdrop-filter: blur(8px);
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 50px;
   font-size: 1.1rem;
   color: #000;
   text-decoration: none;
@@ -821,7 +821,8 @@ body {
 }
 
 .stat-card--accent {
-  background-color: var(--accent);
+  background-color: #4b3fc4;
+  animation: color-cycle 8s ease-in-out infinite;
 }
 
 .stat-card--accent .stat-number,
@@ -919,6 +920,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.8rem;
+  align-items: start;
 }
 
 .uiux-card {
@@ -981,6 +983,32 @@ body {
   line-height: 1.5;
 }
 
+.uiux-caption p.desc-clamp {
+  overflow: hidden;
+  max-height: 2.65rem; /* ~2 baris pada font-size 0.88rem / line-height 1.5 */
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.desc-toggle {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #b0b0ba;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.desc-toggle:hover {
+  color: var(--muted);
+}
+
 .tag-row {
   display: flex;
   gap: 0.5rem;
@@ -995,6 +1023,174 @@ body {
   background-color: #f0f0f6;
   color: var(--muted);
   letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   CTA "LIHAT SEMUA KARYA" — dipakai di section Graphic Design & UI/UX landing
+   ========================================================================== */
+.section-cta-row {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  background-color: #4b3fc4;
+  animation: color-cycle 8s ease-in-out infinite;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  box-shadow: var(--shadow-soft);
+  transition:
+    box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes color-cycle {
+  0%,
+  100% {
+    background-color: #4b3fc4;
+  }
+  33% {
+    background-color: #7c93c9;
+  }
+  66% {
+    background-color: #c99a5b;
+  }
+}
+
+.btn-view-all span.arrow {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-view-all:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 35px rgba(17, 17, 17, 0.2);
+  animation-duration: 3s;
+}
+
+.btn-view-all:hover span.arrow {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   GALLERY PAGES (graphic-design.html & uiux-design.html)
+   ========================================================================== */
+.gallery-navbar {
+  position: relative;
+  z-index: 100;
+}
+
+.gallery-hero {
+  position: relative;
+  z-index: 5;
+  padding: 100px 0 30px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  margin-bottom: 1.6rem;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.gallery-hero h1 {
+  font-size: 2.6rem;
+  font-weight: 400;
+  letter-spacing: -0.1em;
+  line-height: 1.2;
+  color: var(--ink);
+  max-width: 680px;
+}
+
+.gallery-hero .body-text {
+  max-width: 640px;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 2.2rem 0 0;
+}
+
+.filter-btn {
+  padding: 0.55rem 1.2rem;
+  border-radius: 100px;
+  border: 1px solid var(--border-soft);
+  background-color: var(--surface);
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.filter-btn.is-active {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.gallery-section {
+  padding-top: 10px;
+}
+
+.gallery-empty {
+  display: none;
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.gallery-empty.is-active {
+  display: block;
+}
+
+/* Grid gallery penuh: gunakan struktur kartu yang sama (gd-card / uiux-card)
+   tapi dibungkus grid 3 kolom supaya lega untuk banyak item */
+.gd-grid-full {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.gallery-card {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.gallery-card.is-hidden {
+  display: none;
+}
+
+.gallery-footer-nav {
+  padding: 0px 0 80px;
 }
 
 /* ==========================================================================
@@ -1166,6 +1362,9 @@ body {
     grid-template-columns: 1fr 1fr;
   }
   .uiux-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gd-grid-full {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -1343,6 +1542,17 @@ body {
 
   .uiux-grid {
     grid-template-columns: 1fr;
+  }
+
+  .gd-grid-full {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-hero {
+    padding: 90px 0 20px;
+  }
+  .gallery-hero h1 {
+    font-size: 1.9rem;
   }
 
   .footer-inner {

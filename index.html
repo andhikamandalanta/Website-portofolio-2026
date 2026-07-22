@@ -153,7 +153,7 @@
             </p>
             <p class="body-text">
               Dari riset pengguna sampai eksekusi visual akhir, saya suka
-              terlibat di setiap tahap — karena di situlah detail-detail kecil
+              terlibat di setiap tahap, karena di situlah detail-detail kecil
               yang membuat perbedaan besar biasanya ditemukan.
             </p>
             <div class="tool-tags">
@@ -283,7 +283,7 @@
             <h2>Desain yang bercerita, bukan sekadar terlihat bagus.</h2>
             <p class="body-text section-desc">
               Kumpulan karya visual dari branding, konten sosial media, hingga
-              materi promosi — dirancang agar setiap brand punya suara yang
+              materi promosi, dirancang agar setiap brand punya suara yang
               konsisten dan mudah dikenali.
             </p>
           </div>
@@ -318,6 +318,12 @@
               </div>
             </article>
           </div>
+
+          <div class="section-cta-row">
+            <a href="graphic-design.html" class="btn-view-all"
+              >Lihat semua karya <span class="arrow">&rarr;</span></a
+            >
+          </div>
         </div>
       </section>
 
@@ -339,12 +345,21 @@
               <div class="uiux-thumb">
                 <img
                   src="assets/Cookaloud-thumbnail.png"
-                  alt="Thumbnail Nimbus Finance"
+                  alt="Thumbnail Cookaloud"
                 />
               </div>
               <div class="uiux-caption">
-                <h3>Nimbus Finance</h3>
-                <p>Dashboard analitik keuangan untuk tim finansial internal.</p>
+                <h3>Cookaloud</h3>
+                <p class="desc-clamp">
+                  Cook Aloud is a mobile cooking assistant app that provides
+                  hands-on, step-by-step guidance. With voice integration
+                  similar to Google Assistant, users can ask, “What’s the next
+                  step?” or “Repeat that step” without frequently checking their
+                  screen. The app delivers a more practical and convenient
+                  cooking experience, helping users stay focused on cooking with
+                  accessible, interactive support.
+                </p>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Web App</span><span>Design System</span>
                 </div>
@@ -355,14 +370,20 @@
               <div class="uiux-thumb">
                 <img
                   src="assets/NutriVita-thumbnail.png"
-                  alt="Thumbnail Ruangbaca"
+                  alt="Thumbnail NutriVita"
                 />
               </div>
               <div class="uiux-caption">
-                <h3>Ruangbaca</h3>
-                <p>
-                  Aplikasi baca e-book dengan fokus pengalaman baca yang nyaman.
+                <h3>NutriVita</h3>
+                <p class="desc-clamp">
+                  NutriVita is a revolutionary nutrition companion designed to
+                  help you achieve an optimal healthy lifestyle. By combining
+                  trusted nutritional data and personalized calorie tracking
+                  with gamified challenges, NutriVita makes healthy living not
+                  just achievable, but engaging and sustainable for the long
+                  term.
                 </p>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Mobile App</span><span>UX Research</span>
                 </div>
@@ -373,17 +394,31 @@
               <div class="uiux-thumb">
                 <img
                   src="assets/mona-coffee-thumbnail.png"
-                  alt="Thumbnail Studio Roasters"
+                  alt="Thumbnail Mona Coffee"
                 />
               </div>
               <div class="uiux-caption">
-                <h3>Studio Roasters</h3>
-                <p>Landing page &amp; toko online untuk kedai kopi lokal.</p>
+                <h3>Mona Coffee</h3>
+                <p class="desc-clamp">
+                  Mona Coffee is a coffee and tea ordering app that provides
+                  customers with the convenience of enjoying their favorite
+                  beverages through three service options: dine-in, takeaway,
+                  and delivery. With an intuitive interface, users can easily
+                  browse the menu, make payments, and track their orders in
+                  real-time, ensuring a seamless and hassle-free experience.
+                </p>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Website</span><span>E-commerce</span>
                 </div>
               </div>
             </article>
+          </div>
+
+          <div class="section-cta-row">
+            <a href="uiux-design.html" class="btn-view-all"
+              >Lihat semua karya <span class="arrow">&rarr;</span></a
+            >
           </div>
         </div>
       </section>
@@ -598,6 +633,29 @@
           });
         });
       }
+
+      // Toggle "Selengkapnya" / "Lihat lebih sedikit" pada deskripsi UI/UX
+      // Animasi max-height dihitung dari scrollHeight asli tiap paragraf,
+      // supaya transisinya smooth dan sesuai panjang teksnya masing-masing.
+      const COLLAPSED_HEIGHT = "2.65rem";
+      document.querySelectorAll(".desc-toggle").forEach((btn) => {
+        const desc = btn.previousElementSibling;
+        if (!desc) return;
+        let isExpanded = false;
+
+        btn.addEventListener("click", () => {
+          if (!isExpanded) {
+            // Expand: set max-height ke tinggi asli konten, lalu transisi jalan
+            desc.style.maxHeight = desc.scrollHeight + "px";
+            btn.textContent = "Lihat lebih sedikit";
+          } else {
+            // Collapse: kembali ke tinggi 2 baris
+            desc.style.maxHeight = COLLAPSED_HEIGHT;
+            btn.textContent = "Selengkapnya";
+          }
+          isExpanded = !isExpanded;
+        });
+      });
 
       // Reveal animation saat scroll (menghormati prefers-reduced-motion)
       const prefersReducedMotion = window.matchMedia(

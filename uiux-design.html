@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI/UX Design — Portofolio Andhika</title>
+
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Background blob sama seperti landing page, supaya konsisten -->
+    <div class="site-bg-blobs" aria-hidden="true">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+      <span class="blob blob-4"></span>
+      <span class="blob blob-5"></span>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="navbar gallery-navbar">
+      <div class="logo">
+        <a href="index.html"><img src="assets/logo.svg" alt="Logo M" /></a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html#about">About Me</a>
+        <a href="graphic-design.html">Graphic Design</a>
+        <a href="uiux-design.html">UI/UX Design</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Buka menu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="page-content">
+      <!-- HEADER HALAMAN -->
+      <section class="gallery-hero section-inner">
+        <a href="index.html#uiux-design" class="back-link"
+          >&larr; Kembali ke beranda</a
+        >
+        <span class="eyebrow">UI/UX Design</span>
+        <h1>Semua studi kasus produk digital, dari riset sampai rilis.</h1>
+        <p class="body-text section-desc">
+          Kumpulan lengkap studi kasus UI/UX — mobile app, web app, hingga
+          sistem desain. Gunakan filter di bawah untuk melihat berdasarkan
+          jenis produk.
+        </p>
+
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn is-active" data-filter="all">
+            Semua
+          </button>
+          <button class="filter-btn" data-filter="mobile">Mobile App</button>
+          <button class="filter-btn" data-filter="web">Web App</button>
+          <button class="filter-btn" data-filter="ecommerce">
+            E-commerce
+          </button>
+          <button class="filter-btn" data-filter="design-system">
+            Design System
+          </button>
+          <button class="filter-btn" data-filter="research">
+            UX Research
+          </button>
+        </div>
+      </section>
+
+      <!-- GRID GALLERY -->
+      <section class="section gallery-section">
+        <div class="section-inner">
+          <div class="uiux-grid" id="galleryGrid">
+            <!-- NOTE: 3 thumbnail (Cookaloud, NutriVita, Mona Coffee) dipakai
+                 berulang sebagai placeholder supaya grid terlihat penuh.
+                 Ganti gambar & judul dengan studi kasus asli satu per satu. -->
+
+            <article
+              class="uiux-card gallery-card reveal reveal-scale"
+              data-category="web design-system"
+            >
+              <div class="uiux-thumb">
+                <img
+                  src="assets/Cookaloud-thumbnail.png"
+                  alt="Thumbnail Cookaloud"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Cookaloud</h3>
+                <p class="desc-clamp">
+                  Cook Aloud is a mobile cooking assistant app that provides
+                  hands-on, step-by-step guidance. With voice integration
+                  similar to Google Assistant, users can ask, “What’s the next
+                  step?” or “Repeat that step” without frequently checking
+                  their screen. The app delivers a more practical and
+                  convenient cooking experience, helping users stay focused on
+                  cooking with accessible, interactive support.
+                </p>
+                <button type="button" class="desc-toggle">
+                  Selengkapnya
+                </button>
+                <div class="tag-row">
+                  <span>Web App</span><span>Design System</span>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="uiux-card gallery-card reveal reveal-scale reveal-delay-1"
+              data-category="mobile research"
+            >
+              <div class="uiux-thumb">
+                <img
+                  src="assets/NutriVita-thumbnail.png"
+                  alt="Thumbnail NutriVita"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>NutriVita</h3>
+                <p class="desc-clamp">
+                  NutriVita is a revolutionary nutrition companion designed to
+                  help you achieve an optimal healthy lifestyle. By combining
+                  trusted nutritional data and personalized calorie tracking
+                  with gamified challenges, NutriVita makes healthy living not
+                  just achievable, but engaging and sustainable for the long
+                  term.
+                </p>
+                <button type="button" class="desc-toggle">
+                  Selengkapnya
+                </button>
+                <div class="tag-row">
+                  <span>Mobile App</span><span>UX Research</span>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="uiux-card gallery-card reveal reveal-scale reveal-delay-2"
+              data-category="web ecommerce"
+            >
+              <div class="uiux-thumb">
+                <img
+                  src="assets/mona-coffee-thumbnail.png"
+                  alt="Thumbnail Mona Coffee"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Mona Coffee</h3>
+                <p class="desc-clamp">
+                  Mona Coffee is a coffee and tea ordering app that provides
+                  customers with the convenience of enjoying their favorite
+                  beverages through three service options: dine-in, takeaway,
+                  and delivery. With an intuitive interface, users can easily
+                  browse the menu, make payments, and track their orders in
+                  real-time, ensuring a seamless and hassle-free experience.
+                </p>
+                <button type="button" class="desc-toggle">
+                  Selengkapnya
+                </button>
+                <div class="tag-row">
+                  <span>Website</span><span>E-commerce</span>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="uiux-card gallery-card reveal reveal-scale"
+              data-category="mobile design-system"
+            >
+              <div class="uiux-thumb">
+                <img
+                  src="assets/Cookaloud-thumbnail.png"
+                  alt="Thumbnail studi kasus mobile"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Cookaloud — Design System</h3>
+                <p class="desc-clamp">
+                  Dokumentasi komponen dan sistem desain untuk Cookaloud,
+                  mencakup tipografi, warna, dan pola interaksi yang konsisten
+                  agar mudah dikembangkan lebih lanjut oleh tim.
+                </p>
+                <button type="button" class="desc-toggle">
+                  Selengkapnya
+                </button>
+                <div class="tag-row">
+                  <span>Mobile App</span><span>Design System</span>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="uiux-card gallery-card reveal reveal-scale reveal-delay-1"
+              data-category="research web"
+            >
+              <div class="uiux-thumb">
+                <img
+                  src="assets/NutriVita-thumbnail.png"
+                  alt="Thumbnail riset pengguna"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>NutriVita — UX Research</h3>
+                <p class="desc-clamp">
+                  Proses riset pengguna untuk NutriVita, mulai dari
+                  wawancara, survei, hingga usability testing untuk
+                  memvalidasi alur onboarding dan fitur gamifikasi.
+                </p>
+                <button type="button" class="desc-toggle">
+                  Selengkapnya
+                </button>
+                <div class="tag-row">
+                  <span>UX Research</span><span>Web App</span>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="uiux-card gallery-card reveal reveal-scale reveal-delay-2"
+              data-category="ecommerce mobile"
+            >
+              <div class="uiux-thumb">
+                <img
+                  src="assets/mona-coffee-thumbnail.png"
+                  alt="Thumbnail aplikasi mobile e-commerce"
+                />
+              </div>
+              <div class="uiux-caption">
+                <h3>Mona Coffee — Mobile App</h3>
+                <p class="desc-clamp">
+                  Versi aplikasi mobile dari Mona Coffee dengan fokus pada
+                  kecepatan checkout dan tracking pesanan real-time untuk
+                  pengalaman belanja yang lebih personal.
+                </p>
+                <button type="button" class="desc-toggle">
+                  Selengkapnya
+                </button>
+                <div class="tag-row">
+                  <span>Mobile App</span><span>E-commerce</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <p class="gallery-empty" id="galleryEmpty">
+            Belum ada studi kasus untuk kategori ini.
+          </p>
+        </div>
+      </section>
+
+      <!-- CTA balik ke halaman Graphic Design -->
+      <section class="section gallery-footer-nav">
+        <div class="section-inner">
+          <div class="section-cta-row">
+            <a href="graphic-design.html" class="btn-view-all"
+              >Lihat karya Graphic Design <span class="arrow">&rarr;</span></a
+            >
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer reveal">
+        <div class="section-inner footer-inner">
+          <div class="logo footer-logo">
+            <img src="assets/logo.svg" alt="Logo M" />
+            <span>Andhika Mandalanta Saragih</span>
+          </div>
+          <p>&copy; 2026 AMS. Dibuat dengan niat baik dan banyak kopi.</p>
+          <a href="#" class="back-to-top">Kembali ke atas &uarr;</a>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Toggle menu mobile
+      const navToggle = document.getElementById("navToggle");
+      const navLinks = document.querySelector(".nav-links");
+      if (navToggle && navLinks) {
+        navToggle.addEventListener("click", () => {
+          const isOpen = navLinks.classList.toggle("is-open");
+          navToggle.classList.toggle("is-open", isOpen);
+          navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+        navLinks.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            navLinks.classList.remove("is-open");
+            navToggle.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+      // Toggle "Selengkapnya" / "Lihat lebih sedikit"
+      const COLLAPSED_HEIGHT = "2.65rem";
+      document.querySelectorAll(".desc-toggle").forEach((btn) => {
+        const desc = btn.previousElementSibling;
+        if (!desc) return;
+        let isExpanded = false;
+
+        btn.addEventListener("click", () => {
+          if (!isExpanded) {
+            desc.style.maxHeight = desc.scrollHeight + "px";
+            btn.textContent = "Lihat lebih sedikit";
+          } else {
+            desc.style.maxHeight = COLLAPSED_HEIGHT;
+            btn.textContent = "Selengkapnya";
+          }
+          isExpanded = !isExpanded;
+        });
+      });
+
+      // Reveal animation saat scroll
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const revealEls = document.querySelectorAll(
+        ".reveal, .reveal-left, .reveal-right, .reveal-scale",
+      );
+      if (!prefersReducedMotion && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              entry.target.classList.toggle("is-visible", entry.isIntersecting);
+            });
+          },
+          { threshold: 0.1 },
+        );
+        revealEls.forEach((el) => observer.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // Filter kategori
+      const filterBar = document.getElementById("filterBar");
+      const galleryCards = document.querySelectorAll(".gallery-card");
+      const galleryEmpty = document.getElementById("galleryEmpty");
+
+      if (filterBar) {
+        filterBar.addEventListener("click", (e) => {
+          const btn = e.target.closest(".filter-btn");
+          if (!btn) return;
+
+          filterBar
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+
+          const filter = btn.dataset.filter;
+          let visibleCount = 0;
+
+          galleryCards.forEach((card) => {
+            const categories = card.dataset.category || "";
+            const match = filter === "all" || categories.includes(filter);
+            card.classList.toggle("is-hidden", !match);
+            if (match) visibleCount++;
+          });
+
+          galleryEmpty.classList.toggle("is-active", visibleCount === 0);
+        });
+      }
+    </script>
+  </body>
+</html>
