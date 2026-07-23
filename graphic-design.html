@@ -55,19 +55,15 @@
         <span class="eyebrow">Graphic Design</span>
         <h1>Semua karya desain grafis, dari branding sampai konten sosial.</h1>
         <p class="body-text section-desc">
-          Kumpulan lengkap proyek visual — branding, konten media sosial,
-          poster kampanye, materi cetak, hingga produksi video. Gunakan filter
-          di bawah untuk melihat berdasarkan kategori.
+          Kumpulan lengkap proyek visual — branding, konten media sosial, poster
+          kampanye, materi cetak, hingga produksi video. Gunakan filter di bawah
+          untuk melihat berdasarkan kategori.
         </p>
 
         <div class="filter-bar" id="filterBar">
-          <button class="filter-btn is-active" data-filter="all">
-            Semua
-          </button>
+          <button class="filter-btn is-active" data-filter="all">Semua</button>
           <button class="filter-btn" data-filter="branding">Branding</button>
-          <button class="filter-btn" data-filter="social">
-            Sosial Media
-          </button>
+          <button class="filter-btn" data-filter="social">Sosial Media</button>
           <button class="filter-btn" data-filter="campaign">
             Poster &amp; Campaign
           </button>
@@ -88,7 +84,10 @@
                  supaya grid terlihat penuh. Ganti src & judul di bawah dengan
                  karya asli Andhika satu per satu. -->
 
-            <article class="gd-card gallery-card reveal" data-category="branding social">
+            <article
+              class="gd-card gallery-card reveal"
+              data-category="branding social"
+            >
               <img src="assets/kartu1.png" alt="Studi kasus Backspace Studio" />
               <div class="gd-caption">
                 <h3>Backspace Studio</h3>
@@ -130,7 +129,10 @@
             </article>
 
             <article class="gd-card gallery-card reveal" data-category="social">
-              <img src="assets/kartu2.png" alt="Konten feed Instagram Backspace Studio" />
+              <img
+                src="assets/kartu2.png"
+                alt="Konten feed Instagram Backspace Studio"
+              />
               <div class="gd-caption">
                 <h3>Backspace Studio — Feed IG</h3>
                 <p>Social media content kit</p>
@@ -152,7 +154,10 @@
               class="gd-card gallery-card reveal reveal-delay-2"
               data-category="campaign"
             >
-              <img src="assets/kartu3.png" alt="Seri poster kampanye lanjutan" />
+              <img
+                src="assets/kartu3.png"
+                alt="Seri poster kampanye lanjutan"
+              />
               <div class="gd-caption">
                 <h3>Campaign Series Vol. 2</h3>
                 <p>Poster &amp; social campaign</p>
@@ -216,6 +221,20 @@
             navToggle.classList.remove("is-open");
             navToggle.setAttribute("aria-expanded", "false");
           });
+        });
+        // Tutup menu kalau audiens klik di luar area menu / tombol hamburger
+        document.addEventListener("click", (e) => {
+          const isClickInsideMenu = navLinks.contains(e.target);
+          const isClickOnToggle = navToggle.contains(e.target);
+          if (
+            navLinks.classList.contains("is-open") &&
+            !isClickInsideMenu &&
+            !isClickOnToggle
+          ) {
+            navLinks.classList.remove("is-open");
+            navToggle.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          }
         });
       }
 

@@ -56,25 +56,19 @@
         <h1>Semua studi kasus produk digital, dari riset sampai rilis.</h1>
         <p class="body-text section-desc">
           Kumpulan lengkap studi kasus UI/UX — mobile app, web app, hingga
-          sistem desain. Gunakan filter di bawah untuk melihat berdasarkan
-          jenis produk.
+          sistem desain. Gunakan filter di bawah untuk melihat berdasarkan jenis
+          produk.
         </p>
 
         <div class="filter-bar" id="filterBar">
-          <button class="filter-btn is-active" data-filter="all">
-            Semua
-          </button>
+          <button class="filter-btn is-active" data-filter="all">Semua</button>
           <button class="filter-btn" data-filter="mobile">Mobile App</button>
           <button class="filter-btn" data-filter="web">Web App</button>
-          <button class="filter-btn" data-filter="ecommerce">
-            E-commerce
-          </button>
+          <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
           <button class="filter-btn" data-filter="design-system">
             Design System
           </button>
-          <button class="filter-btn" data-filter="research">
-            UX Research
-          </button>
+          <button class="filter-btn" data-filter="research">UX Research</button>
         </div>
       </section>
 
@@ -102,14 +96,12 @@
                   Cook Aloud is a mobile cooking assistant app that provides
                   hands-on, step-by-step guidance. With voice integration
                   similar to Google Assistant, users can ask, “What’s the next
-                  step?” or “Repeat that step” without frequently checking
-                  their screen. The app delivers a more practical and
-                  convenient cooking experience, helping users stay focused on
-                  cooking with accessible, interactive support.
+                  step?” or “Repeat that step” without frequently checking their
+                  screen. The app delivers a more practical and convenient
+                  cooking experience, helping users stay focused on cooking with
+                  accessible, interactive support.
                 </p>
-                <button type="button" class="desc-toggle">
-                  Selengkapnya
-                </button>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Web App</span><span>Design System</span>
                 </div>
@@ -136,9 +128,7 @@
                   just achievable, but engaging and sustainable for the long
                   term.
                 </p>
-                <button type="button" class="desc-toggle">
-                  Selengkapnya
-                </button>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Mobile App</span><span>UX Research</span>
                 </div>
@@ -165,9 +155,7 @@
                   browse the menu, make payments, and track their orders in
                   real-time, ensuring a seamless and hassle-free experience.
                 </p>
-                <button type="button" class="desc-toggle">
-                  Selengkapnya
-                </button>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Website</span><span>E-commerce</span>
                 </div>
@@ -191,9 +179,7 @@
                   mencakup tipografi, warna, dan pola interaksi yang konsisten
                   agar mudah dikembangkan lebih lanjut oleh tim.
                 </p>
-                <button type="button" class="desc-toggle">
-                  Selengkapnya
-                </button>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Mobile App</span><span>Design System</span>
                 </div>
@@ -213,13 +199,11 @@
               <div class="uiux-caption">
                 <h3>NutriVita — UX Research</h3>
                 <p class="desc-clamp">
-                  Proses riset pengguna untuk NutriVita, mulai dari
-                  wawancara, survei, hingga usability testing untuk
-                  memvalidasi alur onboarding dan fitur gamifikasi.
+                  Proses riset pengguna untuk NutriVita, mulai dari wawancara,
+                  survei, hingga usability testing untuk memvalidasi alur
+                  onboarding dan fitur gamifikasi.
                 </p>
-                <button type="button" class="desc-toggle">
-                  Selengkapnya
-                </button>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>UX Research</span><span>Web App</span>
                 </div>
@@ -243,9 +227,7 @@
                   kecepatan checkout dan tracking pesanan real-time untuk
                   pengalaman belanja yang lebih personal.
                 </p>
-                <button type="button" class="desc-toggle">
-                  Selengkapnya
-                </button>
+                <button type="button" class="desc-toggle">Selengkapnya</button>
                 <div class="tag-row">
                   <span>Mobile App</span><span>E-commerce</span>
                 </div>
@@ -298,6 +280,20 @@
             navToggle.classList.remove("is-open");
             navToggle.setAttribute("aria-expanded", "false");
           });
+        });
+        // Tutup menu kalau audiens klik di luar area menu / tombol hamburger
+        document.addEventListener("click", (e) => {
+          const isClickInsideMenu = navLinks.contains(e.target);
+          const isClickOnToggle = navToggle.contains(e.target);
+          if (
+            navLinks.classList.contains("is-open") &&
+            !isClickInsideMenu &&
+            !isClickOnToggle
+          ) {
+            navLinks.classList.remove("is-open");
+            navToggle.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          }
         });
       }
 

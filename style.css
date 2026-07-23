@@ -1092,7 +1092,8 @@ body {
 .gallery-hero {
   position: relative;
   z-index: 5;
-  padding: 100px 0 30px;
+  padding-top: 100px;
+  padding-bottom: 30px;
 }
 
 .back-link {
@@ -1391,7 +1392,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    background-color: #fff;
+    background: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 16px;
     padding: 10px;
     box-shadow: 0 20px 40px rgba(17, 17, 17, 0.15);
@@ -1428,80 +1432,105 @@ body {
     transform: none;
   }
 
-  /* --- Hero: dari layout absolut ke alur normal (stacked) --- */
+  /* ==========================================================================
+     HERO MOBILE — layout baru (bukan scale-down desktop lagi):
+     - Lebar hero-container mengikuti lebar konten di bawahnya (section-inner,
+       padding 24px kiri-kanan, sama seperti "Tentang Saya").
+     - Karakter & tumpukan kartu tetap "melayang" overlap di area visual
+       (hero-container), karakter digeser ke kanan, kartu digeser sedikit
+       ke tengah.
+     - Teks judul + sub-text + tombol (intro-wrapper) TIDAK lagi overlap;
+       dipindah jadi block normal DI BAWAH area visual.
+     ========================================================================== */
+
+  /* .hero-stage jadi stacking context sendiri (terisolasi dari elemen lain
+     di halaman, seperti .site-bg-blobs), supaya urutan tumpuk (z-index) di
+     dalamnya — kartu berserakan, bingkai kaca, tumpukan kartu, teks — bisa
+     diatur secara lokal & terprediksi. */
+  .hero-stage {
+    isolation: isolate;
+  }
+
+  .hero-wrap {
+    padding-bottom: 40px;
+  }
+
+  /* Kartu dekoratif yang bocor ke pinggir (hero-scatter-cards) DITAMPILKAN lagi.
+     Karena .hero-stage kini tingginya = hero-container + teks di bawahnya
+     (foreground-content sudah position:static, ikut menambah tinggi), dan
+     hero-scatter-cards pakai inset:0 relatif ke .hero-stage, elemen ini
+     otomatis meregang sampai ke area teks "Crafting digital..." di bawah.
+     z-index NEGATIF supaya tetap di BELAKANG teks (yang normal/static), tapi
+     tetap di depan latar polos halaman berkat isolation:isolate di atas. */
+  .hero-scatter-cards {
+    z-index: -1;
+    opacity: 0.45;
+    transform: scale(0.6);
+    transform-origin: center top;
+  }
+
   .hero-container {
+    height: 380px;
+    min-height: 0;
+    margin: 0 24px 0 24px;
+    border-radius: 1.6em;
+  }
+
+  /* Karakter digeser lebih ke kanan lagi karena sisi kanan sudah tidak ada
+     teks lagi, dan tumpukan kartu (di bawah) diposisikan di sisi kirinya.
+     Pakai selector gabungan (.main-char.hero-anim-char / .is-visible) supaya
+     spesifisitasnya menang dari rule animasi entrance yang juga mengatur
+     transform (.hero-anim-char.is-visible), bukan cuma override polos. */
+  .main-char,
+  .main-char.hero-anim-char,
+  .main-char.hero-anim-char.is-visible {
+    left: auto;
+    right: -130px;
+    transform: none;
+    max-height: 90%;
+  }
+
+  /* Foreground-content kembali ke alur normal (bukan absolute penuh lagi),
+     supaya intro-wrapper otomatis mengalir DI BAWAH hero-container.
+     Cards-wrapper di dalamnya sengaja tetap position:absolute supaya
+     "keluar" dari alur ini dan tetap melayang overlap di atas hero-container
+     (nempel ke .hero-stage yang position:relative). */
+  .foreground-content {
+    position: static;
     height: auto;
     min-height: 0;
-    margin: 0 16px 24px 16px;
-    padding-bottom: 40px;
-    display: flex;
-    flex-direction: column;
+    padding: 0;
   }
 
-  .character-wrapper {
-    position: relative;
-    height: 340px;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .main-char {
-    max-height: 100%;
-  }
-
-  .foreground-content {
-    position: relative;
-    height: auto;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 0 24px;
+  /* Sama seperti main-char di atas: selector gabungan supaya menang dari
+     rule animasi entrance .hero-anim-cards.is-visible. z-index diberi nilai
+     tinggi (di atas .hero-container yang z-index:2) supaya kartu tidak lagi
+     "ketiban" bingkai kaca — ini penyebab kartu sempat tidak kelihatan. */
+  .cards-wrapper,
+  .cards-wrapper.hero-anim-cards,
+  .cards-wrapper.hero-anim-cards.is-visible {
+    position: absolute;
+    left: 55px; /* di sisi kiri karakter */
+    top: 38px; /* digeser naik supaya tumpukan kartu bleed melewati tepi atas hero-bg */
+    transform: scale(
+      0.65
+    ); /* diperbesar dari 0.58 supaya tidak terlihat "tanggung" */
+    transform-origin: top left;
+    z-index: 6;
   }
 
   .intro-wrapper {
-    position: relative;
-    right: 0;
-    top: 0;
-    transform: none;
+    position: static;
     width: 100%;
-    order: 1;
+    right: auto;
+    top: auto;
+    transform: none;
     text-align: left;
-    padding-top: 24px;
+    padding: 28px 24px 0 24px;
   }
 
   .intro-wrapper h1 {
     font-size: 1.7rem;
-  }
-
-  .cards-wrapper {
-    position: relative;
-    left: 0;
-    top: 0;
-    transform: none;
-    order: 2;
-    width: 100%;
-    height: 300px;
-    margin: 20px 0 10px;
-  }
-
-  .card {
-    width: 150px;
-  }
-  .card-1 {
-    top: -10px;
-    left: 10px;
-  }
-  .card-2 {
-    top: 20px;
-    left: 130px;
-  }
-  .card-3 {
-    top: 130px;
-    left: 0px;
-  }
-  .card-4 {
-    top: 160px;
-    left: 140px;
   }
 
   /* --- Section spacing lebih ringkas di mobile --- */
@@ -1549,7 +1578,8 @@ body {
   }
 
   .gallery-hero {
-    padding: 90px 0 20px;
+    padding-top: 90px;
+    padding-bottom: 20px;
   }
   .gallery-hero h1 {
     font-size: 1.9rem;
@@ -1562,33 +1592,20 @@ body {
 }
 
 @media (max-width: 480px) {
+  /* Sedikit penyesuaian lagi untuk layar sangat sempit, supaya kartu
+     tidak terlalu mepet/besar dan judul tetap nyaman dibaca. */
+  .cards-wrapper,
+  .cards-wrapper.hero-anim-cards,
+  .cards-wrapper.hero-anim-cards.is-visible {
+    left: 30px;
+    top: 28px;
+    transform: scale(0.5);
+  }
   .intro-wrapper h1 {
-    font-size: 1.45rem;
+    font-size: 1.5rem;
   }
   .about-stats {
     grid-template-columns: 1fr;
-  }
-  .cards-wrapper {
-    height: 460px;
-  }
-  .card {
-    width: 130px;
-  }
-  .card-1 {
-    top: -10px;
-    left: 10px;
-  }
-  .card-2 {
-    top: 110px;
-    left: 130px;
-  }
-  .card-3 {
-    top: 220px;
-    left: 10px;
-  }
-  .card-4 {
-    top: 330px;
-    left: 130px;
   }
   .btn-talk--lg {
     width: 100%;
@@ -1603,14 +1620,14 @@ body {
 /* ==========================================================================
    RESPONSIVE — LAYAR PENDEK (laptop dengan tinggi terbatas, mis. 1280x720)
    ========================================================================== */
-@media (max-height: 820px) {
+@media (max-height: 820px) and (min-width: 769px) {
   .cards-wrapper {
     transform: translateY(-50%) scale(0.75);
     left: 210px;
   }
 }
 
-@media (max-height: 620px) {
+@media (max-height: 620px) and (min-width: 769px) {
   .cards-wrapper {
     transform: translateY(-50%) scale(0.6);
     left: 180px;

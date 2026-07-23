@@ -59,7 +59,7 @@
 
       <!-- HERO STAGE: membungkus layer 2-4 agar posisi absolute anak-anaknya
              terikat ke area hero ini, bukan ke seluruh panjang halaman -->
-      <div class="hero-stage">
+      <div class="hero-stage" id="heroStage">
         <!-- LAYER 1b: Kartu berserakan (hiasan, mirror dari kartu asli), DI BELAKANG bingkai kaca
                  supaya bisa "bocor" keluar sampai pinggir, tidak ke-clip oleh hero-container -->
         <div
@@ -631,6 +631,20 @@
             navToggle.classList.remove("is-open");
             navToggle.setAttribute("aria-expanded", "false");
           });
+        });
+        // Tutup menu kalau audiens klik di luar area menu / tombol hamburger
+        document.addEventListener("click", (e) => {
+          const isClickInsideMenu = navLinks.contains(e.target);
+          const isClickOnToggle = navToggle.contains(e.target);
+          if (
+            navLinks.classList.contains("is-open") &&
+            !isClickInsideMenu &&
+            !isClickOnToggle
+          ) {
+            navLinks.classList.remove("is-open");
+            navToggle.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+          }
         });
       }
 
