@@ -1485,7 +1485,7 @@ body {
   .main-char.hero-anim-char,
   .main-char.hero-anim-char.is-visible {
     left: auto;
-    right: -130px;
+    right: -150px;
     transform: none;
     max-height: 90%;
   }
@@ -1599,7 +1599,31 @@ body {
   .cards-wrapper.hero-anim-cards.is-visible {
     left: 30px;
     top: 28px;
-    transform: scale(0.5);
+    transform: scale(0.6);
+  }
+  .card-1 {
+    top: -60px;
+    left: -20px;
+  }
+  .card-2 {
+    top: 30px;
+    left: 20px;
+  }
+  .card-3 {
+    top: 190px;
+    left: -20px;
+  }
+  .card-4 {
+    top: 330px;
+    left: 20px;
+  }
+  .main-char,
+  .main-char.hero-anim-char,
+  .main-char.hero-anim-char.is-visible {
+    left: auto;
+    right: -260px;
+    transform: none;
+    max-height: 90%;
   }
   .intro-wrapper h1 {
     font-size: 1.5rem;
