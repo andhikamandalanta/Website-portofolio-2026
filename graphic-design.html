@@ -86,13 +86,9 @@
 
             <article
               class="gd-card gallery-card reveal"
-              data-category="branding social"
+              data-category="branding social video"
             >
               <img src="assets/kartu1.png" alt="Studi kasus Backspace Studio" />
-              <div class="gd-caption">
-                <h3>Backspace Studio</h3>
-                <p>Brand identity &amp; social kit</p>
-              </div>
             </article>
 
             <article
@@ -100,21 +96,13 @@
               data-category="video"
             >
               <img src="assets/kartu2.png" alt="Konten video produksi" />
-              <div class="gd-caption">
-                <h3>Shoot. Edit. Deliver.</h3>
-                <p>Content &amp; video production</p>
-              </div>
             </article>
 
             <article
               class="gd-card gallery-card reveal reveal-delay-2"
-              data-category="campaign"
+              data-category="campaign video"
             >
               <img src="assets/kartu3.png" alt="Kampanye komunitas kreatif" />
-              <div class="gd-caption">
-                <h3>You Didn't Just Join</h3>
-                <p>Campaign &amp; poster design</p>
-              </div>
             </article>
 
             <article
@@ -122,10 +110,6 @@
               data-category="print"
             >
               <img src="assets/kartu4.png" alt="Materi rekrutmen D4Media" />
-              <div class="gd-caption">
-                <h3>D4Media</h3>
-                <p>Recruitment &amp; print design</p>
-              </div>
             </article>
 
             <article class="gd-card gallery-card reveal" data-category="social">
@@ -133,10 +117,6 @@
                 src="assets/kartu2.png"
                 alt="Konten feed Instagram Backspace Studio"
               />
-              <div class="gd-caption">
-                <h3>Backspace Studio — Feed IG</h3>
-                <p>Social media content kit</p>
-              </div>
             </article>
 
             <article
@@ -144,10 +124,6 @@
               data-category="branding"
             >
               <img src="assets/kartu1.png" alt="Panduan identitas visual" />
-              <div class="gd-caption">
-                <h3>Visual Identity Guideline</h3>
-                <p>Brand guideline &amp; logo system</p>
-              </div>
             </article>
 
             <article
@@ -155,13 +131,9 @@
               data-category="campaign"
             >
               <img
-                src="assets/kartu3.png"
+                src="assets/kartu6.png"
                 alt="Seri poster kampanye lanjutan"
               />
-              <div class="gd-caption">
-                <h3>Campaign Series Vol. 2</h3>
-                <p>Poster &amp; social campaign</p>
-              </div>
             </article>
 
             <article
@@ -169,10 +141,6 @@
               data-category="print"
             >
               <img src="assets/kartu4.png" alt="Booklet dan materi cetak" />
-              <div class="gd-caption">
-                <h3>D4Media — Booklet</h3>
-                <p>Print &amp; editorial layout</p>
-              </div>
             </article>
           </div>
 
@@ -203,6 +171,38 @@
           <a href="#" class="back-to-top">Kembali ke atas &uarr;</a>
         </div>
       </footer>
+    </div>
+
+    <!-- LIGHTBOX: preview gambar full-screen ala galeri HP -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button
+        type="button"
+        class="lightbox-close"
+        id="lightboxClose"
+        aria-label="Tutup preview"
+      >
+        &times;
+      </button>
+      <button
+        type="button"
+        class="lightbox-prev"
+        id="lightboxPrev"
+        aria-label="Gambar sebelumnya"
+      >
+        &larr;
+      </button>
+      <figure class="lightbox-figure">
+        <img src="" alt="" id="lightboxImg" />
+      </figure>
+      <button
+        type="button"
+        class="lightbox-next"
+        id="lightboxNext"
+        aria-label="Gambar selanjutnya"
+      >
+        &rarr;
+      </button>
+      <span class="lightbox-counter" id="lightboxCounter"></span>
     </div>
 
     <script>
@@ -287,6 +287,77 @@
           galleryEmpty.classList.toggle("is-active", visibleCount === 0);
         });
       }
+
+      // Lightbox: klik gambar untuk zoom full-screen, seperti galeri HP
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const lightboxCounter = document.getElementById("lightboxCounter");
+      const lightboxClose = document.getElementById("lightboxClose");
+      const lightboxPrev = document.getElementById("lightboxPrev");
+      const lightboxNext = document.getElementById("lightboxNext");
+
+      let currentIndex = 0;
+
+      // Hanya gambar yang sedang tampil (tidak kena filter) yang bisa dinavigasi
+      function getVisibleImages() {
+        return Array.from(galleryCards)
+          .filter((card) => !card.classList.contains("is-hidden"))
+          .map((card) => card.querySelector("img"));
+      }
+
+      function openLightbox(img) {
+        const visibleImages = getVisibleImages();
+        currentIndex = visibleImages.indexOf(img);
+        if (currentIndex === -1) currentIndex = 0;
+        showImageAt(currentIndex);
+        lightbox.classList.add("is-active");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        document.body.classList.add("lightbox-open");
+      }
+
+      function showImageAt(index) {
+        const visibleImages = getVisibleImages();
+        if (!visibleImages.length) return;
+        currentIndex = (index + visibleImages.length) % visibleImages.length;
+        const img = visibleImages[currentIndex];
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || "";
+        lightboxCounter.textContent = `${currentIndex + 1} / ${visibleImages.length}`;
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("is-active");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        document.body.classList.remove("lightbox-open");
+      }
+
+      document.querySelectorAll(".gd-card img").forEach((img) => {
+        img.addEventListener("click", () => openLightbox(img));
+      });
+
+      lightboxImg.addEventListener("click", closeLightbox);
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightboxPrev.addEventListener("click", () =>
+        showImageAt(currentIndex - 1),
+      );
+      lightboxNext.addEventListener("click", () =>
+        showImageAt(currentIndex + 1),
+      );
+
+      // Klik area gelap di luar gambar juga menutup lightbox
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      // Navigasi via keyboard: Esc untuk tutup, panah kiri/kanan untuk geser
+      document.addEventListener("keydown", (e) => {
+        if (!lightbox.classList.contains("is-active")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") showImageAt(currentIndex - 1);
+        if (e.key === "ArrowRight") showImageAt(currentIndex + 1);
+      });
     </script>
   </body>
 </html>

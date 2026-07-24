@@ -500,6 +500,24 @@ body {
   font-size: 1.2rem;
   color: #ffffff;
   margin-bottom: 2rem;
+  animation: subTextGlow 2.4s ease-in-out infinite;
+}
+
+/* Efek glow putih yang berdenyut pelan pada .sub-text */
+@keyframes subTextGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 4px rgba(255, 255, 255, 0.5),
+      0 0 10px rgba(255, 255, 255, 0.3),
+      0 0 18px rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.9),
+      0 0 22px rgba(255, 255, 255, 0.6),
+      0 0 36px rgba(255, 255, 255, 0.35);
+  }
 }
 
 .btn-talk {
@@ -860,8 +878,17 @@ body {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
-  background-color: var(--surface);
-  box-shadow: var(--shadow-soft);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.18)
+  );
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   cursor: pointer;
   transform: rotate(0deg);
   transition:
@@ -884,8 +911,21 @@ body {
 
 .gd-card:hover {
   transform: rotate(0deg) translateY(-10px) scale(1.03);
-  box-shadow: 0 25px 45px rgba(17, 17, 17, 0.18);
+  box-shadow:
+    0 25px 45px rgba(17, 17, 17, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 255, 255, 0.75);
   z-index: 5;
+}
+
+/* Saat mode layar penuh (lightbox) aktif, matikan efek glass pada kartu
+   di belakangnya supaya tidak jadi blur bertumpuk / terlihat kotor. */
+body.lightbox-open .gd-card {
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .gd-card img {
@@ -893,6 +933,52 @@ body {
   height: 260px;
   object-fit: cover;
   display: block;
+}
+
+/* Preview 4 kartu di homepage (section #graphic-design) dibuat menyamai
+   gaya kartu UI/UX: flat, tanpa glass, tanpa efek miring. Style glass +
+   miring tetap dipakai di halaman galeri penuh (graphic-design.html). */
+.work-section .gd-card {
+  background: var(--surface);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: var(--shadow-soft);
+  border-radius: 20px;
+  padding: 1.1rem;
+  transform: none !important;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.work-section .gd-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: var(--shadow-soft);
+  border-color: transparent;
+}
+
+.work-section .gd-card img {
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.07),
+    0 8px 12px rgba(17, 17, 17, 0.08),
+    0 28px 44px rgba(17, 17, 17, 0.16);
+  transition:
+    box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.work-section .gd-card:hover img {
+  transform: translateY(-4px);
+  box-shadow:
+    0 2px 3px rgba(17, 17, 17, 0.08),
+    0 12px 18px rgba(17, 17, 17, 0.1),
+    0 36px 56px rgba(17, 17, 17, 0.2);
+}
+
+.work-section .gd-caption {
+  padding: 1.2rem 0.4rem 0.4rem;
 }
 
 .gd-caption {
@@ -1158,6 +1244,12 @@ body {
 
 .gallery-section {
   padding-top: 10px;
+  padding-bottom: 40px;
+  background-image: url("assets/gallery-bg.svg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  border-radius: 32px;
 }
 
 .gallery-empty {
@@ -1177,7 +1269,33 @@ body {
 .gd-grid-full {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.5em;
+}
+
+/* Halaman Graphic Design: masonry murni gambar, tanpa caption, tanpa
+   crop — setiap gambar tampil dengan rasio aslinya (tinggi menyesuaikan
+   lebar kolom), jadi tinggi antar kartu tidak seragam seperti mockup. */
+.gd-grid-full {
+  display: block;
+  column-count: 3;
+  column-gap: 1.5rem;
+}
+
+.gd-grid-full .gd-card {
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin: 0 0 1.5rem;
+  padding: 1px;
+}
+
+.gd-grid-full .gd-card img {
+  width: 100%;
+  height: auto;
+  object-fit: initial;
+  display: block;
+  border-radius: 12px;
 }
 
 .gallery-card {
@@ -1188,6 +1306,156 @@ body {
 
 .gallery-card.is-hidden {
   display: none;
+}
+
+/* ==========================================================================
+   LIGHTBOX — preview gambar full-screen (Graphic Design)
+   ========================================================================== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 5vw;
+  background: rgba(10, 10, 14, 0.78);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+}
+
+.lightbox.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-figure {
+  position: relative;
+  max-width: 1100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.85);
+  opacity: 0;
+  transition:
+    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.35s ease;
+}
+
+.lightbox.is-active .lightbox-figure {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.lightbox-figure img {
+  max-width: 100%;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+  object-fit: contain;
+  cursor: zoom-out;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(17, 17, 17, 0.1);
+  color: var(--ink);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.lightbox-close {
+  top: 28px;
+  right: 28px;
+}
+
+.lightbox-prev {
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox-next {
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-counter {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--ink);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 720px) {
+  .lightbox {
+    padding: 0 0 10vh;
+  }
+  .lightbox-close {
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+  }
+  .lightbox-prev {
+    left: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  .lightbox-next {
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  .lightbox-figure img {
+    max-height: 78vh;
+    border-radius: 10px;
+  }
 }
 
 .gallery-footer-nav {
@@ -1236,10 +1504,38 @@ body {
   margin-right: auto;
 }
 
+.contact-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 769px) {
+  .contact-cta {
+    display: inline-flex;
+    align-items: stretch;
+  }
+}
+
 .btn-talk--lg {
   margin-top: 2.2rem;
   padding: 1.1rem 2rem;
   font-size: 1.15rem;
+  text-align: center;
+  color: #fff;
+  border: 1px solid transparent;
+  backdrop-filter: none;
+  background-color: #4b3fc4;
+  box-shadow: var(--shadow-soft);
+  animation: color-cycle 8s ease-in-out infinite;
+}
+
+.btn-talk--lg:hover {
+  background-color: initial;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 35px rgba(17, 17, 17, 0.2);
+  animation-duration: 3s;
 }
 
 .social-row {
@@ -1366,7 +1662,13 @@ body {
     grid-template-columns: 1fr 1fr;
   }
   .gd-grid-full {
-    grid-template-columns: 1fr 1fr;
+    column-count: 2;
+  }
+
+  /* --- Sub-text pakai warna gelap solid (sama dengan warna judul h1 di
+         sisi kanan hero section) supaya tetap terbaca di layar non-desktop --- */
+  .sub-text {
+    color: #111;
   }
 }
 
@@ -1574,7 +1876,7 @@ body {
   }
 
   .gd-grid-full {
-    grid-template-columns: 1fr;
+    column-count: 1;
   }
 
   .gallery-hero {
@@ -1591,13 +1893,59 @@ body {
   }
 }
 
+@media (min-width: 481px) and (max-width: 500px) {
+  .main-char,
+  .main-char.hero-anim-char,
+  .main-char.hero-anim-char.is-visible {
+    left: auto;
+    right: -200px;
+    transform: none;
+    max-height: 90%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 600px) {
+  .main-char,
+  .main-char.hero-anim-char,
+  .main-char.hero-anim-char.is-visible {
+    left: auto;
+    right: -190px;
+    transform: none;
+    max-height: 90%;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 700px) {
+  .main-char,
+  .main-char.hero-anim-char,
+  .main-char.hero-anim-char.is-visible {
+    left: auto;
+    right: -140px;
+    transform: none;
+    max-height: 90%;
+  }
+
+  .cards-wrapper,
+  .cards-wrapper.hero-anim-cards,
+  .cards-wrapper.hero-anim-cards.is-visible {
+    position: absolute;
+    left: 85px; /* di sisi kiri karakter */
+    top: 38px; /* digeser naik supaya tumpukan kartu bleed melewati tepi atas hero-bg */
+    transform: scale(
+      0.65
+    ); /* diperbesar dari 0.58 supaya tidak terlihat "tanggung" */
+    transform-origin: top left;
+    z-index: 6;
+  }
+}
+
 @media (max-width: 480px) {
   /* Sedikit penyesuaian lagi untuk layar sangat sempit, supaya kartu
      tidak terlalu mepet/besar dan judul tetap nyaman dibaca. */
   .cards-wrapper,
   .cards-wrapper.hero-anim-cards,
   .cards-wrapper.hero-anim-cards.is-visible {
-    left: 30px;
+    left: 50px;
     top: 28px;
     transform: scale(0.6);
   }
@@ -1621,7 +1969,7 @@ body {
   .main-char.hero-anim-char,
   .main-char.hero-anim-char.is-visible {
     left: auto;
-    right: -260px;
+    right: -200px;
     transform: none;
     max-height: 90%;
   }
@@ -1632,7 +1980,6 @@ body {
     grid-template-columns: 1fr;
   }
   .btn-talk--lg {
-    width: 100%;
     text-align: center;
   }
   .social-row {
